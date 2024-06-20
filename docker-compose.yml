@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    user: 1000:1000
+    ports: 
+      - "3000:3000"
+    entrypoint: npm run dev
+    volumes: 
+      - ./frontend:/var/www/frontend
+      - ./frontend/node_modules:/var/www/frontend/node_modules
+    networks: 
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
