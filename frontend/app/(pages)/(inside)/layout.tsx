@@ -7,7 +7,7 @@ export default function PagesRootLayout({
 }>) {
 	const menuItems = [
 		{ name: 'Inicio', href: '/home' },
-		{ name: 'Actividad', href: '/history' },
+		{ name: 'Actividad', href: '/activity' },
 		{ name: 'Tu perfil', href: '/profile' },
 		{ name: 'Cargar dinero', href: '/deposit' },
 		{ name: 'Pagar Servicios', href: '/services' },

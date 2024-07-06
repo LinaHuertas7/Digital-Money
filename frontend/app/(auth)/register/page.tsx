@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import { ErrorRegisterMessage } from '@/interfaces'
 
 import InputField from '@/components/ui/InputField'
 import useAuth from '@/hooks/useAuth'
@@ -13,6 +14,8 @@ const RegisterPage = () => {
 		error,
 		loading,
 	} = useAuth()
+
+	const errorValues = error as ErrorRegisterMessage
 
 	return (
 		<div className="h-screen-minus-layout flex flex-col justify-center items-center">
@@ -36,8 +39,12 @@ const RegisterPage = () => {
 					onChange={handleRegisterChange}
 					placeholder="Apellido*"
 				/>
-				<p className="text-custom-red text-sm italic">{error?.firstName}</p>
-				<p className="text-custom-red text-sm italic">{error?.lastName}</p>
+				<p className="text-custom-red text-sm italic">
+					{errorValues?.firstName}
+				</p>
+				<p className="text-custom-red text-sm italic">
+					{errorValues?.lastName}
+				</p>
 				<InputField
 					type="number"
 					name="dni"
@@ -52,8 +59,8 @@ const RegisterPage = () => {
 					onChange={handleRegisterChange}
 					placeholder="Correo electrónico*"
 				/>
-				<p className="text-custom-red text-sm italic">{error?.dni}</p>
-				<p className="text-custom-red text-sm italic">{error?.email}</p>
+				<p className="text-custom-red text-sm italic">{errorValues?.dni}</p>
+				<p className="text-custom-red text-sm italic">{errorValues?.email}</p>
 				<p className="col-span-2 text-sm text-center mb-3">
 					Usa entre 6 y 20 carácteres (debe contener al menos al menos 1
 					carácter especial, una mayúscula y un número)
@@ -73,7 +80,7 @@ const RegisterPage = () => {
 					placeholder="Confirmar contraseña*"
 				/>
 				<p className="text-custom-red text-sm italic col-span-2">
-					{error?.password}
+					{errorValues?.password}
 				</p>
 				<InputField
 					type="text"
@@ -88,9 +95,9 @@ const RegisterPage = () => {
 				>
 					Crear cuenta
 				</button>
-				<p className="text-custom-red text-sm italic">{error?.phone}</p>
+				<p className="text-custom-red text-sm italic">{errorValues?.phone}</p>
 				<p className="text-custom-red text-sm italic">
-					{error?.userAlreadyExists}
+					{errorValues?.userAlreadyExists}
 				</p>
 			</form>
 		</div>

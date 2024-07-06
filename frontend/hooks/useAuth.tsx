@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { ErrorMessageType } from '@/types'
@@ -11,7 +11,7 @@ import {
 
 import endPoints from '@/constants/api'
 import errorMessages from '@/constants/messages'
-import { LoginData, RegisterData, State, Error } from '@/interfaces/index'
+import { LoginData, RegisterData, ErrorResponse } from '@/interfaces/index'
 
 const useAuth = () => {
 	const router = useRouter()
@@ -32,33 +32,30 @@ const useAuth = () => {
 		phone: '',
 	})
 
-	const createChangeHandler =
-		(setter: React.Dispatch<React.SetStateAction<State>>, state: State) =>
-		({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
-			const updatedValue = name === 'dni' ? Number(value) : value
-			setter({
-				...state,
-				[name]: updatedValue,
-			})
-		}
+	const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		const updatedValue = name === 'dni' ? Number(value) : value
+		setRegisterData({
+			...registerData,
+			[name]: updatedValue,
+		})
+	}
 
-	const handleRegisterChange = useCallback(
-		createChangeHandler(setRegisterData, registerData),
-		[setRegisterData, registerData]
-	)
-
-	const handleLoginChange = useCallback(
-		createChangeHandler(setLoginData, loginData),
-		[setLoginData, loginData]
-	)
+	const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target
+		setLoginData({
+			...loginData,
+			[name]: value,
+		})
+	}
 
 	const handleError = (
-		error: Error,
+		error: ErrorResponse,
 		errorCode: number,
 		errorMessageKey: string,
 		isObject: boolean
 	) => {
-		let errorOutput = errorMessages.defaultError
+		let errorOutput: ErrorMessageType = errorMessages.defaultError
 		if (error.response && error.response.status === errorCode) {
 			errorOutput = isObject
 				? { [errorMessageKey]: errorMessages[errorMessageKey] }
@@ -71,14 +68,14 @@ const useAuth = () => {
 		e.preventDefault()
 		setError(null)
 		setLoading(true)
-		const source = axios.CancelToken.source()
 		try {
-			const response = await axios.post(endPoints.REGISTER_URL, {
+			await axios.post(endPoints.REGISTER_URL, {
 				email: loginData.email,
 			})
 			setError(errorMessages.userNotExist)
 		} catch (error) {
-			if (error.response && error.response.status === 409) {
+			const errorResponse = error as ErrorResponse
+			if (errorResponse.response && errorResponse.response.status === 409) {
 				setEmailSubmitted(true)
 			} else {
 				setError(errorMessages.emailVerificationError)
@@ -98,11 +95,12 @@ const useAuth = () => {
 				password: loginData.password,
 			})
 			if (response.data.token) {
-				await localStorage.setItem('authToken', response.data.token)
+				localStorage.setItem('authToken', response.data.token)
 				router.push('/home')
 			}
 		} catch (error) {
-			handleError(error, 401, 'incorrectPassword', false)
+			const errorResponse = error as ErrorResponse
+			handleError(errorResponse, 401, 'incorrectPassword', false)
 		} finally {
 			setLoading(false)
 		}
@@ -122,10 +120,11 @@ const useAuth = () => {
 		}
 		try {
 			setLoading(true)
-			const response = await axios.post(endPoints.REGISTER_URL, registerData)
+			await axios.post(endPoints.REGISTER_URL, registerData)
 			router.push('/register/success')
 		} catch (error) {
-			handleError(error, 409, 'userAlreadyExists', true)
+			const errorResponse = error as ErrorResponse
+			handleError(errorResponse, 409, 'userAlreadyExists', true)
 		} finally {
 			setLoading(false)
 		}

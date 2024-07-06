@@ -58,7 +58,7 @@ const LoginPage = () => {
 				)}
 				{error && (
 					<p className="text-custom-red text-center text-sm mx-auto italic">
-						{error}
+						{String(error)}
 					</p>
 				)}
 			</div>

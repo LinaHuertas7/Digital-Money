@@ -27,7 +27,7 @@ const CardsPage = () => {
 							className="my-auto text-custom-green p-1 border border-custom-green rounded-full"
 							icon={faPlus}
 						/>
-						<div className="text-custom-green font-semibold my-auto mx-2 hover:underline">
+						<div className="text-custom-green font-semibold my-auto mx-5 hover:underline">
 							Nueva tarjeta
 						</div>
 					</Link>
