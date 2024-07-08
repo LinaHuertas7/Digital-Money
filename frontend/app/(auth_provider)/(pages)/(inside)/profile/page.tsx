@@ -8,7 +8,7 @@ import DepositCard from '@/components/features/DepositCard'
 const ProfilePage = () => {
 	return (
 		<div className="flex flex-col justify-center items-center">
-			<div className="bg-white rounded-xl py-10 px-8 w-full text-black shadow-md mb-5">
+			<div className="bg-white rounded-xl py-6 px-8 w-full text-black shadow-md mb-5">
 				<div className="pb-4 font-bold text-xl">Tus datos</div>
 				<div className="border-b border-gray-300 flex py-2 justify-between">
 					<div className="my-auto w-1/3">Email</div>

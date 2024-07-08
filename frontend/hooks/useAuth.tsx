@@ -11,10 +11,18 @@ import {
 
 import endPoints from '@/constants/api'
 import errorMessages from '@/constants/messages'
-import { LoginData, RegisterData, ErrorResponse } from '@/interfaces/index'
+import {
+	LoginData,
+	RegisterData,
+	ErrorResponse,
+	SessionUser,
+	AccountData,
+} from '@/interfaces/index'
 
 const useAuth = () => {
 	const router = useRouter()
+	const [userState, setUserState] = useState<SessionUser | null>(null)
+	const [accountData, setAccountData] = useState<AccountData | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<ErrorMessageType>(null)
 	const [isEmailSubmitted, setEmailSubmitted] = useState(false)
@@ -64,6 +72,40 @@ const useAuth = () => {
 		setError(errorOutput)
 	}
 
+	const getUserData = async ({ user_id }: { user_id: number }) => {
+		try {
+			const { data } = await axios.get(`${endPoints.GET_USER_URL}${user_id}`, {
+				headers: {
+					Authorization: localStorage.getItem('authToken'),
+				},
+			})
+
+			console.log({ data })
+
+			setLoading(false)
+			setUserState(data)
+		} catch (error) {
+			console.log({ error })
+			setUserState(null)
+		}
+	}
+
+	const getAccountData = async () => {
+		try {
+			const { data } = await axios.get(endPoints.GET_ACCOUNT_URL, {
+				headers: {
+					Authorization: localStorage.getItem('authToken'),
+				},
+			})
+
+			setLoading(false)
+			setAccountData(data)
+			return data
+		} catch (error) {
+			setAccountData(null)
+		}
+	}
+
 	const handleEmailSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setError(null)
@@ -96,6 +138,8 @@ const useAuth = () => {
 			})
 			if (response.data.token) {
 				localStorage.setItem('authToken', response.data.token)
+				const accountData = await getAccountData()
+				await getUserData({ user_id: accountData.user_id })
 				router.push('/home')
 			}
 		} catch (error) {
@@ -131,6 +175,7 @@ const useAuth = () => {
 	}
 
 	return {
+		userState,
 		loginData,
 		handleLoginChange,
 		registerData,
@@ -141,6 +186,7 @@ const useAuth = () => {
 		handleLoginSubmit,
 		loading,
 		handleRegisterSubmit,
+		getAccountData,
 	}
 }
 

@@ -3,10 +3,11 @@ import DepositCard from '@/components/features/DepositCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faArrowRight,
-	faCopy,
+	faCheckCircle,
 	faCreditCard,
 	faPlus,
 	faUserCircle,
+	faEdit,
 } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 
@@ -15,11 +16,9 @@ const DepositPage = () => {
 		{ text: 'Terminada en 0000' },
 		{ text: 'Terminada en 4067' },
 	]
-
 	return (
 		<div className="flex flex-col justify-center items-center">
 			<DepositCard />
-
 			<div className="bg-custom-dark-gray px-10 pt-14 pb-14 flex flex-col w-full rounded-xl shadow-md mb-3 text-custom-green">
 				<div className="font-semibold flex justify-between">
 					<Link className="hover:underline flex" href="/activity">
@@ -31,7 +30,6 @@ const DepositPage = () => {
 					</Link>
 				</div>
 			</div>
-
 			<div className="bg-custom-dark-gray px-10 pt-14 pb-14 flex flex-col w-full rounded-xl shadow-md mb-5 text-custom-green">
 				<div className="font-semibold flex justify-between">
 					<Link className="hover:underline flex" href="/activity">
@@ -43,15 +41,12 @@ const DepositPage = () => {
 					</Link>
 				</div>
 			</div>
-
 			<div className="bg-custom-dark-gray px-10 pt-4 pb-10 flex flex-col w-full rounded-xl shadow-md mb-5 text-custom-green">
 				<div className="my-5 text-2xl">Seleccionar tarjeta</div>
-
 				<div className="bg-white px-16 pt-6 pb-6 flex flex-col w-full rounded-xl shadow-md mb-5 text-custom-green">
 					<div className="text-custom-dark-gray font-bold mb-3">
 						Tus tarjetas
 					</div>
-
 					{cardsData.map((item, index) => (
 						<div
 							key={index}
@@ -66,12 +61,15 @@ const DepositPage = () => {
 								</div>
 							</div>
 							<div className="my-auto">
-								<input type="radio" name="card" />
+								<input
+									type="radio"
+									name="card"
+									className="aria-checked:bg-black"
+								/>
 							</div>
 						</div>
 					))}
 				</div>
-
 				<div className="flex justify-between mt-3">
 					<Link href="/cards/add" className="flex">
 						<FontAwesomeIcon
@@ -89,6 +87,64 @@ const DepositPage = () => {
 						Continuar
 					</Link>
 				</div>
+			</div>
+
+			<div className="bg-custom-dark-gray px-10 py-5 md:py-7 flex flex-col w-full rounded-xl shadow-md mb-5">
+				<div className="mb-7 mt-2 text-2xl text-custom-green">
+					¿Cuánto querés ingresar a la cuenta?
+				</div>
+
+				<input
+					className="rounded-lg py-4 px-4 w-80 text-custom-dark-gray"
+					placeholder="$0"
+				/>
+
+				<Link
+					href="/login"
+					className="rounded-lg py-4 px-3 text-sm font-bold bg-custom-green text-black w-52 text-center ml-auto mt-9"
+				>
+					Continuar
+				</Link>
+			</div>
+
+			<div className="bg-custom-green px-10 py-5 md:py-6 flex flex-col w-full rounded-xl shadow-md mb-5 text-black">
+				<FontAwesomeIcon className="text-6xl mx-5" icon={faCheckCircle} />
+				<div className="mt-5 font-bold mx-auto text-2xl">
+					Ya cargamos el dinero en tu cuenta
+				</div>
+			</div>
+
+			<div className="bg-custom-dark-gray px-10 py-5 md:py-10 flex flex-col w-full rounded-xl shadow-md mb-5 font-light">
+				<div className="mt-2 text-xl text-custom-green font-bold">
+					Revisá que está todo bien
+				</div>
+				<div className="mt-7">
+					<div>
+						Vas a transferir
+						<FontAwesomeIcon
+							className="text-custom-green text-2xl mx-5"
+							icon={faEdit}
+						/>
+					</div>
+					<div className="font-bold mt-1">$300</div>
+				</div>
+
+				<div className="mt-7">
+					<div className="text-sm">Para</div>
+					<div className="font-bold text-2xl mt-2">Cuenta propia</div>
+				</div>
+
+				<div className="mt-5">
+					<div className="text-xl">Brubank</div>
+					<div className="mt-1 text-sm">CVU: 0000002100075990000000</div>
+				</div>
+
+				<Link
+					href="/login"
+					className="rounded-lg py-4 px-3 text-sm font-bold bg-custom-green text-black w-52 text-center ml-auto"
+				>
+					Continuar
+				</Link>
 			</div>
 		</div>
 	)

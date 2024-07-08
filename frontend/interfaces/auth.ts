@@ -20,3 +20,20 @@ export interface State {
 export interface ErrorResponse {
 	response?: { [key: string]: string[] | number | string }
 }
+
+export interface SessionUser {
+	dni: number
+	email: string
+	firstname: string
+	id: number
+	lastname: string
+	phone: string
+}
+
+export interface AccountData {
+	alias: string
+	available_amount: number
+	cvu: string
+	id: number
+	user_id: number
+}
