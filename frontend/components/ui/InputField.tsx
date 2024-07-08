@@ -4,7 +4,7 @@ interface InputFieldProps {
 	type: string
 	placeholder: string
 	style?: string
-	value: string
+	value?: string | number
 	required?: boolean
 	name?: string
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -13,7 +13,7 @@ interface InputFieldProps {
 const InputField: React.FC<InputFieldProps> = ({
 	type,
 	placeholder,
-	style,
+	style = '',
 	value,
 	required,
 	name,
@@ -31,5 +31,4 @@ const InputField: React.FC<InputFieldProps> = ({
 		/>
 	)
 }
-
 export default InputField

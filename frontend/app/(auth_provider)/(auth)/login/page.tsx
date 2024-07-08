@@ -1,8 +1,7 @@
 'use client'
-import useAuth from '@/hooks/useAuth'
 import Spinner from '@/components/ui/Spinner'
 import InputField from '@/components/ui/InputField'
-
+import { useAuthContext } from '@/context/AuthContext'
 const LoginPage = () => {
 	const {
 		loginData,
@@ -12,7 +11,7 @@ const LoginPage = () => {
 		handleEmailSubmit,
 		handleLoginSubmit,
 		loading,
-	} = useAuth()
+	} = useAuthContext()
 	return (
 		<div className="h-screen-minus-layout flex flex-col justify-center items-center">
 			<h1 className="text-center mb-8 text-lg font-bold">
@@ -20,7 +19,7 @@ const LoginPage = () => {
 					? 'Ingresá tu contraseña'
 					: '¡Hola! Ingresá tu e-mail'}
 			</h1>
-			<div className="w-3/12">
+			<div className="w-9/12 md:w-3/12">
 				{loading && <Spinner />}
 				<form
 					onSubmit={isEmailSubmitted ? handleLoginSubmit : handleEmailSubmit}

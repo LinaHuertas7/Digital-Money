@@ -1,48 +1,78 @@
-import Link from 'next/link'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faArrowRight,
-	faPencil,
-	faCopy,
-	faPlus,
-} from '@fortawesome/free-solid-svg-icons'
+'use client'
+import InputField from '@/components/ui/InputField'
+import MessageComponent from '@/components/ui/messages/ErrorMessage'
+import useAccountCards from '@/hooks/useAccountCards'
 
 const AddCardPage = () => {
-	const cardsData = [
-		{ code: '0000' },
-		{ code: '4067' },
-		{ code: '8040' },
-		{ code: '9006' },
-	]
+	const {
+		error,
+		createNewCardData,
+		handleInputChangeNewCardData,
+		handleNumberInputChangeNewCardData,
+		handleCreateNewCardSubmit,
+		isFormValid,
+	} = useAccountCards()
 
 	return (
 		<div className="flex flex-col justify-center items-center">
-			<div className="bg-white rounded-xl py-10 px-16 w-full text-black shadow-md grid grid-cols-2 gap-x-14 gap-y-8 mb-5">
-				<input
-					type="text"
+			{error && <MessageComponent message={error} type="error" />}
+			<form
+				className="bg-white rounded-xl py-6 md:py-10 px-5 md:px-16 w-full text-black shadow-md grid grid-cols-1 md:grid-cols-2 md:gap-x-14 gap-y-4 md:gap-y-8 mb-5"
+				onSubmit={(e) => handleCreateNewCardSubmit(e, 16)}
+			>
+				<InputField
+					required
+					name="cod"
+					type="number"
 					placeholder="Número de la tarjeta*"
-					className="border border-gray-300 rounded-lg px-4 py-3 shadow focus:border-custom-green"
+					style={`border border-gray-300 rounded-lg shadow focus:border-custom-green ${
+						error && 'border-red-700 border-2'
+					} `}
+					value={createNewCardData.cod}
+					onChange={(e) => handleNumberInputChangeNewCardData(e)}
 				/>
-				<input
+				<InputField
+					required
+					name="expiration_date"
 					type="text"
 					placeholder="Fecha de vencimiento*"
-					className="border border-gray-300 rounded-lg px-4 py-3 shadow"
+					style={`border border-gray-300 rounded-lg shadow focus:border-custom-green ${
+						error && 'border-red-700 border-2'
+					} `}
+					value={createNewCardData.expiration_date}
+					onChange={(e) => handleInputChangeNewCardData(e)}
 				/>
-				<input
+				<InputField
+					required
+					name="first_last_name"
 					type="text"
 					placeholder="Nombre y apellido*"
-					className="border border-gray-300 rounded-lg px-4 py-3 shadow"
+					style={`border border-gray-300 rounded-lg shadow focus:border-custom-green ${
+						error && 'border-red-700 border-2'
+					} `}
+					value={createNewCardData.first_last_name}
+					onChange={(e) => handleInputChangeNewCardData(e)}
 				/>
-				<input
-					type="text"
+				<InputField
+					required
+					name="number_id"
+					type="number"
 					placeholder="Código de seguridad*"
-					className="border border-gray-300 rounded-lg px-4 py-3 shadow"
+					style={`border border-gray-300 rounded-lg shadow focus:border-custom-green ${
+						error && 'border-red-700 border-2'
+					} `}
+					value={createNewCardData.number_id}
+					onChange={(e) => handleNumberInputChangeNewCardData(e)}
 				/>
-				<button className="col-start-2 rounded-lg px-5 py-4 w-full text-sm font-bold bg-custom-light-gray text-black">
+				<button
+					type="submit"
+					className={`md:col-start-2 rounded-lg px-5 py-4 w-full text-sm font-bold ${
+						isFormValid ? 'bg-custom-green' : 'bg-custom-light-gray'
+					} text-black`}
+				>
 					Continuar
 				</button>
-			</div>
+			</form>
 		</div>
 	)
 }

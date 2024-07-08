@@ -3,7 +3,7 @@ import React from 'react'
 import { ErrorRegisterMessage } from '@/interfaces'
 
 import InputField from '@/components/ui/InputField'
-import useAuth from '@/hooks/useAuth'
+import { useAuthContext } from '@/context/AuthContext'
 import Spinner from '@/components/ui/Spinner'
 
 const RegisterPage = () => {
@@ -13,16 +13,16 @@ const RegisterPage = () => {
 		handleRegisterSubmit,
 		error,
 		loading,
-	} = useAuth()
+	} = useAuthContext()
 
 	const errorValues = error as ErrorRegisterMessage
 
 	return (
-		<div className="h-screen-minus-layout flex flex-col justify-center items-center">
+		<div className="pt-10 pb-5 h-auto md:h-screen-minus-layout flex flex-col justify-center items-center">
 			<h1 className="text-center mb-8 text-lg font-bold">Crear cuenta</h1>
 			{loading && <Spinner />}
 			<form
-				className="grid grid-cols-2 gap-x-10 gap-y-3"
+				className="grid grid-cols-1 md:grid-cols-2 md:gap-x-10 gap-y-3 mx-6"
 				onSubmit={handleRegisterSubmit}
 			>
 				<InputField
@@ -61,7 +61,7 @@ const RegisterPage = () => {
 				/>
 				<p className="text-custom-red text-sm italic">{errorValues?.dni}</p>
 				<p className="text-custom-red text-sm italic">{errorValues?.email}</p>
-				<p className="col-span-2 text-sm text-center mb-3">
+				<p className="col-span-1 md:col-span-2 text-sm text-center mb-3">
 					Usa entre 6 y 20 carácteres (debe contener al menos al menos 1
 					carácter especial, una mayúscula y un número)
 				</p>
@@ -79,7 +79,7 @@ const RegisterPage = () => {
 					onChange={handleRegisterChange}
 					placeholder="Confirmar contraseña*"
 				/>
-				<p className="text-custom-red text-sm italic col-span-2">
+				<p className="text-custom-red text-sm italic col-span-1 md:col-span-2">
 					{errorValues?.password}
 				</p>
 				<InputField

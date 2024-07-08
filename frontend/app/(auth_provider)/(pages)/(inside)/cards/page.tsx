@@ -1,14 +1,20 @@
+'use client'
 import Link from 'next/link'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faArrowRight,
-	faPencil,
-	faCopy,
-	faPlus,
-} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons'
+
+import useAccountCards from '@/hooks/useAccountCards'
+import useAuth from '@/hooks/useAuth'
+import { useEffect } from 'react'
 
 const CardsPage = () => {
+	const { cards, loading, error, fetchCards } = useAccountCards()
+
+	useEffect(() => {
+		fetchCards(16)
+	}, [])
+
 	const cardsData = [
 		{ code: '0000' },
 		{ code: '4067' },
@@ -44,14 +50,30 @@ const CardsPage = () => {
 				<div className="border-b border-black pb-4 font-semibold">
 					Tus tarjetas
 				</div>
-				{cardsData.map((item, index) => (
+				{cards.map((card, index) => (
 					<div
 						key={index}
 						className="border-b border-black flex py-5 justify-between w-full"
 					>
 						<div className="flex">
 							<div className="my-auto bg-custom-green rounded-full h-10 w-10"></div>
-							<div className="my-auto mx-4">{`Terminada en ${item.code}`}</div>
+							<div className="my-auto mx-4">
+								{`Terminada en ${card.cod.toString().slice(-4)}`}
+							</div>
+						</div>
+						<Link href="/login" className="text-black font-semibold my-auto">
+							Eliminar
+						</Link>
+					</div>
+				))}
+				{cardsData.map((card, index) => (
+					<div
+						key={index}
+						className="border-b border-black flex py-5 justify-between w-full text-xs md:text-base"
+					>
+						<div className="flex">
+							<div className="my-auto bg-custom-green rounded-full h-5 w-5 md:h-10 md:w-10"></div>
+							<div className="my-auto mx-2 md:mx-4">{`Terminada en ${card.code}`}</div>
 						</div>
 						<Link href="/login" className="text-black font-semibold my-auto">
 							Eliminar

@@ -102,6 +102,7 @@ const useAuth = () => {
 			setAccountData(data)
 			return data
 		} catch (error) {
+			localStorage.removeItem('authToken')
 			setAccountData(null)
 		}
 	}
@@ -179,6 +180,7 @@ const useAuth = () => {
 		loginData,
 		handleLoginChange,
 		registerData,
+		getUserData,
 		handleRegisterChange,
 		error,
 		isEmailSubmitted,

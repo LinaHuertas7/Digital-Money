@@ -17,7 +17,7 @@ export default function PagesRootLayout({
 
 	return (
 		<div className="flex flex-wrap md:h-screen-minus-layout">
-			<Menu items={menuItems} />
+			<Menu menuItems={menuItems} />
 			<div className="flex-grow bg-gray-200 px-5 md:px-14 py-8 h-full overflow-auto">
 				{children}
 			</div>

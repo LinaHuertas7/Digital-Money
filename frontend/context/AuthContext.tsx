@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useMemo } from 'react'
+import React, { createContext, useContext, useEffect, useMemo } from 'react'
 
 import { SessionUser } from '@/interfaces/index'
+import { useRouter } from 'next/navigation'
 
 import useAuth from '@/hooks/useAuth'
 import { ErrorMessageType } from '@/types'
@@ -24,11 +25,13 @@ interface ContextProps {
 	error: ErrorMessageType
 	isEmailSubmitted: boolean
 	loading: boolean
+	getUserData: (user_id: number) => void
 	handleLoginChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	handleRegisterChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	handleEmailSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 	handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 	handleRegisterSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+	getAccountData: () => void
 }
 
 export const AuthContext = createContext({} as ContextProps)
@@ -38,10 +41,12 @@ interface AuthContextProviderProps {
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+	const router = useRouter()
 	const {
 		userState,
 		loginData,
 		registerData,
+		getUserData,
 		error,
 		isEmailSubmitted,
 		loading,
@@ -50,7 +55,24 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		handleEmailSubmit,
 		handleLoginSubmit,
 		handleRegisterSubmit,
+		getAccountData,
 	} = useAuth()
+
+	useEffect(() => {
+		const processAccountData = async () => {
+			try {
+				const accountData = await getAccountData()
+				await getUserData({ user_id: accountData.user_id })
+			} catch (error) {
+				router.push('/home')
+			}
+		}
+		const token = localStorage.getItem('authToken')
+
+		if (token) {
+			processAccountData()
+		}
+	}, [])
 
 	const values = useMemo(
 		() => ({

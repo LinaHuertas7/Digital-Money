@@ -3,8 +3,35 @@ import { useMenuContext } from '@/context/MenuContext'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const Menu = ({ items }: { items: any }) => {
+interface MenuItemProps {
+	href: string
+	name: string
+}
+
+const MenuItem = ({ href, name }: MenuItemProps) => {
+	const pathname = usePathname()
+
+	const active = href === '/' ? pathname === href : pathname.startsWith(href)
+
+	return (
+		<li>
+			<Link
+				href={href}
+				className={`block px-5 py-3  ${
+					active
+						? 'font-extrabold text-black hover:font-extrabold'
+						: 'hover:font-bold'
+				}`}
+			>
+				{name}
+			</Link>
+		</li>
+	)
+}
+
+const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 	const { isOpen, toggleMenu } = useMenuContext()
 
 	return (
@@ -23,15 +50,8 @@ const Menu = ({ items }: { items: any }) => {
 				</div>
 
 				<ul className="flex-grow px-5 py-6">
-					{items.map((item: any) => (
-						<li>
-							<Link
-								href={item.href}
-								className="block px-5 py-3 hover:font-bold"
-							>
-								{item.name}
-							</Link>
-						</li>
+					{menuItems.map((menuItem: any) => (
+						<MenuItem href={menuItem.href} name={menuItem.name} />
 					))}
 				</ul>
 			</div>

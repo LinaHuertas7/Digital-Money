@@ -1,6 +1,5 @@
 'use client'
 
-import '@/app/globals.css'
 import Image, { StaticImageData } from 'next/image'
 import Footer from '@/components/ui/Footer'
 import Link from 'next/link'
@@ -11,11 +10,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { MenuProvider, useMenuContext } from '@/context/MenuContext'
 import { useAuthContext } from '@/context/AuthContext'
+import { usePathname } from 'next/navigation'
 
 interface AppLayoutProps {
 	children: React.ReactNode
 	type?: string
 }
+
 interface Styles {
 	[key: string]: {
 		headerBg: string
@@ -24,6 +25,7 @@ interface Styles {
 		ImageSrc: StaticImageData
 	}
 }
+
 const styles: Styles = {
 	auth: {
 		headerBg: 'bg-custom-green',
@@ -50,6 +52,11 @@ const HeaderChildrenComponent = ({
 
 	const { isAuthenticated, userState } = useAuthContext()
 
+	const pathname = usePathname()
+
+	console.log(pathname)
+	//get current path
+
 	console.log({ userState })
 
 	return (
@@ -59,7 +66,11 @@ const HeaderChildrenComponent = ({
 					<Image src={ImageSrc} alt="logo" className="object-contain my-auto" />
 				</Link>
 
-				<div className="hidden md:flex ml-auto my-auto">
+				<div
+					className={`${
+						pathname !== '/' ? 'hidden md:flex' : ''
+					} ml-auto my-auto`}
+				>
 					{isAuthenticated ? (
 						<>
 							<div className="text-sm font-semibold mx-5">
@@ -85,7 +96,9 @@ const HeaderChildrenComponent = ({
 				</div>
 
 				<button
-					className="ml-auto p-2 text-white rounded-md md:hidden"
+					className={`${
+						pathname !== '/' ? 'md:hidden' : 'hidden'
+					} ml-auto p-2 text-white rounded-md`}
 					onClick={() => toggleMenu()}
 				>
 					<FontAwesomeIcon
@@ -109,4 +122,5 @@ const AppLayout = ({ children, type = 'base' }: AppLayoutProps) => {
 		</div>
 	)
 }
+
 export default AppLayout
