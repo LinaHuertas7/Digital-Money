@@ -1,6 +1,6 @@
 'use client'
 import InputField from '@/components/ui/InputField'
-import MessageComponent from '@/components/ui/messages/ErrorMessage'
+import MessageComponent from '@/components/ui/ErrorMessage'
 import useAccountCards from '@/hooks/useAccountCards'
 
 const AddCardPage = () => {
