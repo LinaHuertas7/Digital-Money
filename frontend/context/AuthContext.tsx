@@ -25,7 +25,7 @@ interface ContextProps {
 	error: ErrorMessageType
 	isEmailSubmitted: boolean
 	loading: boolean
-	getUserData: (user_id: number) => void
+	getUserData: (user_id: { user_id: number }) => void
 	handleLoginChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	handleRegisterChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 	handleEmailSubmit: (e: React.FormEvent<HTMLFormElement>) => void
@@ -88,6 +88,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 			handleEmailSubmit,
 			handleLoginSubmit,
 			handleRegisterSubmit,
+			getUserData,
+			getAccountData,
 		}),
 		[userState, loginData, registerData, error, isEmailSubmitted, loading]
 	)
