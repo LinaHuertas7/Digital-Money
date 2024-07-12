@@ -19,6 +19,26 @@ import {
 	AccountData,
 } from '@/interfaces/index'
 
+import {
+	SetCookieServerSide,
+	RemoveCookieServerSide,
+} from '@/helper/setCookieServerSide'
+
+const BaseLoginData = {
+	email: '',
+	password: '',
+}
+
+const BaseRegisterData = {
+	firstName: '',
+	lastName: '',
+	dni: '',
+	email: '',
+	password: '',
+	confirmPassword: '',
+	phone: '',
+}
+
 const useAuth = () => {
 	const router = useRouter()
 	const [userState, setUserState] = useState<SessionUser | null>(null)
@@ -26,19 +46,9 @@ const useAuth = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<ErrorMessageType>(null)
 	const [isEmailSubmitted, setEmailSubmitted] = useState(false)
-	const [loginData, setLoginData] = useState<LoginData>({
-		email: '',
-		password: '',
-	})
-	const [registerData, setRegisterData] = useState<RegisterData>({
-		firstName: '',
-		lastName: '',
-		dni: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-		phone: '',
-	})
+	const [loginData, setLoginData] = useState<LoginData>(BaseLoginData)
+	const [registerData, setRegisterData] =
+		useState<RegisterData>(BaseRegisterData)
 
 	const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
@@ -138,6 +148,9 @@ const useAuth = () => {
 				password: loginData.password,
 			})
 			if (response.data.token) {
+				setLoginData(BaseLoginData)
+				setEmailSubmitted(false)
+				SetCookieServerSide({ name: 'authToken', value: response.data.token })
 				localStorage.setItem('authToken', response.data.token)
 				const accountData = await getAccountData()
 				await getUserData({ user_id: accountData.user_id })
@@ -164,6 +177,7 @@ const useAuth = () => {
 			return
 		}
 		try {
+			setRegisterData(BaseRegisterData)
 			setLoading(true)
 			await axios.post(endPoints.REGISTER_URL, registerData)
 			router.push('/register/success')
@@ -173,6 +187,13 @@ const useAuth = () => {
 		} finally {
 			setLoading(false)
 		}
+	}
+
+	const handleLogOut = async () => {
+		setUserState(null)
+		localStorage.removeItem('authToken')
+		await RemoveCookieServerSide({ name: 'authToken' })
+		router.push('/home')
 	}
 
 	return {
@@ -189,6 +210,7 @@ const useAuth = () => {
 		loading,
 		handleRegisterSubmit,
 		getAccountData,
+		handleLogOut,
 	}
 }
 

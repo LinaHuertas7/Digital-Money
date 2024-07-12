@@ -12,11 +12,10 @@ export default function PagesRootLayout({
 		{ name: 'Cargar dinero', href: '/deposit' },
 		{ name: 'Pagar Servicios', href: '/services' },
 		{ name: 'Tarjetas', href: '/cards' },
-		{ name: 'Cerrar sesión', href: '/logout' },
 	]
 
 	return (
-		<div className="flex flex-wrap md:h-screen-minus-layout">
+		<div className="flex md:h-screen-minus-layout">
 			<Menu menuItems={menuItems} />
 			<div className="flex-grow bg-gray-200 px-5 md:px-14 py-8 h-full overflow-auto">
 				{children}

@@ -3,8 +3,8 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const DepositCard = () => {
 	return (
-		<div className="bg-custom-dark-gray px-10 pt-4 pb-10 flex flex-col w-full rounded-xl shadow-md mb-5">
-			<div className="my-5">
+		<div className="bg-custom-dark-gray px-6 md:px-10 pt-2 md:pt-4 pb-10 flex flex-col w-full rounded-xl shadow-md mb-5">
+			<div className="my-5 text-sm md:text-base">
 				Copia tu cvu o alias para ingresar o transferir dinero desde otra cuenta
 			</div>
 

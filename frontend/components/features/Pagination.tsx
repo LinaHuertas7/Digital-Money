@@ -3,8 +3,6 @@ import { useState } from 'react'
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
-console.log(useSearchParams, usePathname, useRouter)
-
 interface PaginationProps {
 	data?: any[]
 	itemsPerPage?: number

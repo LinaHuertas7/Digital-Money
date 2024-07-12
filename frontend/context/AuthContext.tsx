@@ -32,6 +32,7 @@ interface ContextProps {
 	handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 	handleRegisterSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 	getAccountData: () => void
+	handleLogOut: () => void
 }
 
 export const AuthContext = createContext({} as ContextProps)
@@ -56,6 +57,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		handleLoginSubmit,
 		handleRegisterSubmit,
 		getAccountData,
+		handleLogOut,
 	} = useAuth()
 
 	useEffect(() => {
@@ -90,8 +92,18 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 			handleRegisterSubmit,
 			getUserData,
 			getAccountData,
+			handleLogOut,
 		}),
-		[userState, loginData, registerData, error, isEmailSubmitted, loading]
+		[
+			userState,
+			loginData,
+			registerData,
+			error,
+			isEmailSubmitted,
+			loading,
+			getUserData,
+			getAccountData,
+		]
 	)
 
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>

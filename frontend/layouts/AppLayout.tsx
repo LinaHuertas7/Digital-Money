@@ -54,11 +54,6 @@ const HeaderChildrenComponent = ({
 
 	const pathname = usePathname()
 
-	console.log(pathname)
-	//get current path
-
-	console.log({ userState })
-
 	return (
 		<>
 			<header className={`${headerBg} flex h-16 px-5 w-full`}>

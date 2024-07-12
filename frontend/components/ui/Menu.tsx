@@ -1,4 +1,5 @@
 'use client'
+import { useAuthContext } from '@/context/AuthContext'
 import { useMenuContext } from '@/context/MenuContext'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,13 +34,14 @@ const MenuItem = ({ href, name }: MenuItemProps) => {
 
 const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 	const { isOpen, toggleMenu } = useMenuContext()
+	const { handleLogOut } = useAuthContext()
 
 	return (
 		<>
 			<div
 				className={`fixed md:static top-0 right-0 z-40 md:z-0 w-64 h-screen transition-transform ${
 					isOpen ? '' : 'translate-x-full'
-				} sm:translate-x-0 md:w-1/5 md:h-auto bg-custom-green text-custom-dark-gray flex flex-col font-semibold`}
+				} md:translate-x-0 md:w-1/5 md:h-auto bg-custom-green text-custom-dark-gray flex flex-col font-semibold`}
 			>
 				<div className="bg-custom-dark-gray flex h-16 px-5 w-full md:hidden">
 					<FontAwesomeIcon
@@ -53,6 +55,15 @@ const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 					{menuItems.map((menuItem: any) => (
 						<MenuItem href={menuItem.href} name={menuItem.name} />
 					))}
+
+					<li>
+						<button
+							onClick={handleLogOut}
+							className="block px-5 py-3 hover:font-bold"
+						>
+							Cerrar sesión
+						</button>
+					</li>
 				</ul>
 			</div>
 
