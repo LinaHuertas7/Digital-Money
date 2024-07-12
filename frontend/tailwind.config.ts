@@ -11,6 +11,7 @@ const config: Config = {
 		extend: {
 			backgroundImage: {
 				'main-landing': "url('/images/main-landing.png')",
+				'main-landing-mobile': "url('/images/main-landing-mobile.jpg')",
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic':
 					'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

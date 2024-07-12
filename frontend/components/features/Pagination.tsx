@@ -2,11 +2,7 @@
 import { useState } from 'react'
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
-
-interface PaginationProps {
-	data?: any[]
-	itemsPerPage?: number
-}
+import { PaginationProps } from '@/interfaces/index'
 
 const Pagination = ({ data = [], itemsPerPage = 4 }: PaginationProps) => {
 	const searchParams = useSearchParams()

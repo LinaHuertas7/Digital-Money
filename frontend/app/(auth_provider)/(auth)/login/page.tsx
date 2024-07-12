@@ -2,6 +2,7 @@
 import Spinner from '@/components/ui/Spinner'
 import InputField from '@/components/ui/InputField'
 import { useAuthContext } from '@/context/AuthContext'
+
 const LoginPage = () => {
 	const {
 		loginData,

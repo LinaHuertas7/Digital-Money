@@ -1,13 +1,5 @@
-import { ReactNode, createContext, useContext, useState } from 'react'
-
-interface MenuContextType {
-	isOpen: boolean
-	toggleMenu: () => void
-}
-
-interface MenuProviderProps {
-	children: ReactNode
-}
+import { createContext, useContext, useState } from 'react'
+import { MenuContextType, MenuProviderProps } from '@/interfaces'
 
 export const MenuContext = createContext<MenuContextType>({
 	isOpen: false,

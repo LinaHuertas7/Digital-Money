@@ -1,15 +1,11 @@
 'use client'
 import { useAuthContext } from '@/context/AuthContext'
 import { useMenuContext } from '@/context/MenuContext'
+import { MenuItemProps } from '@/interfaces'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-interface MenuItemProps {
-	href: string
-	name: string
-}
 
 const MenuItem = ({ href, name }: MenuItemProps) => {
 	const pathname = usePathname()
@@ -53,7 +49,11 @@ const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 
 				<ul className="flex-grow px-5 py-6">
 					{menuItems.map((menuItem: any) => (
-						<MenuItem href={menuItem.href} name={menuItem.name} />
+						<MenuItem
+							href={menuItem.href}
+							name={menuItem.name}
+							key={menuItem.href}
+						/>
 					))}
 
 					<li>

@@ -1,3 +1,5 @@
+import { ErrorMessageType } from '@/types'
+
 export interface LoginData {
 	email: string
 	password: string
@@ -34,6 +36,29 @@ export interface AccountData {
 	alias: string
 	available_amount: number
 	cvu: string
-	id: number
+	id: number | undefined
 	user_id: number
+}
+
+export interface ContextProps {
+	isAuthenticated: boolean
+	userState: SessionUser | null
+	loginData: LoginData
+	registerData: RegisterData
+	error: ErrorMessageType
+	isEmailSubmitted: boolean
+	loading: boolean
+	getUserData: (user_id: { user_id: number }) => void
+	handleLoginChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+	handleRegisterChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+	handleEmailSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+	handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+	handleRegisterSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+	getAccountData: () => void
+	handleLogOut: () => void
+	accountData: AccountData | null
+}
+
+export interface AuthContextProviderProps {
+	children: React.ReactNode
 }

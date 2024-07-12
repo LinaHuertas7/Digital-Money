@@ -39,10 +39,20 @@ const BaseRegisterData = {
 	phone: '',
 }
 
+const BaseAccountData = {
+	alias: '',
+	cvu: '',
+	id: 0,
+	user_id: 0,
+	available_amount: 0,
+}
+
 const useAuth = () => {
 	const router = useRouter()
 	const [userState, setUserState] = useState<SessionUser | null>(null)
-	const [accountData, setAccountData] = useState<AccountData | null>(null)
+	const [accountData, setAccountData] = useState<AccountData | null>(
+		BaseAccountData
+	)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<ErrorMessageType>(null)
 	const [isEmailSubmitted, setEmailSubmitted] = useState(false)
@@ -149,9 +159,9 @@ const useAuth = () => {
 			})
 			if (response.data.token) {
 				setLoginData(BaseLoginData)
-				setEmailSubmitted(false)
+				await setEmailSubmitted(false)
 				SetCookieServerSide({ name: 'authToken', value: response.data.token })
-				localStorage.setItem('authToken', response.data.token)
+				await localStorage.setItem('authToken', response.data.token)
 				const accountData = await getAccountData()
 				await getUserData({ user_id: accountData.user_id })
 				router.push('/home')
@@ -211,6 +221,7 @@ const useAuth = () => {
 		handleRegisterSubmit,
 		getAccountData,
 		handleLogOut,
+		accountData,
 	}
 }
 

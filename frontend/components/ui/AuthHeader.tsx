@@ -1,11 +1,6 @@
 import React from 'react'
-import Image, { StaticImageData } from 'next/image'
-
-interface AuthHeaderProps {
-	children: React.ReactNode
-	logo?: StaticImageData
-	className?: string
-}
+import Image from 'next/image'
+import { AuthHeaderProps } from '@/interfaces/index'
 
 const AuthHeader = ({ children, logo, className = '' }: AuthHeaderProps) => {
 	return (

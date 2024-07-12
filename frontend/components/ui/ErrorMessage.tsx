@@ -1,15 +1,8 @@
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { StylesMessage, Message } from '@/interfaces/index'
 
-interface Styles {
-	[key: string]: {
-		textColor: string
-		title: string
-		icon: any
-	}
-}
-
-const styles: Styles = {
+const styles: StylesMessage = {
 	info: {
 		textColor: 'text-custom-green',
 		title: 'Información',
@@ -22,13 +15,7 @@ const styles: Styles = {
 	},
 }
 
-const MessageComponent = ({
-	message,
-	type = 'info',
-}: {
-	message: string | null
-	type: string
-}) => {
+const MessageComponent = ({ message, type = 'info' }: Message) => {
 	const { textColor, title, icon } = styles[type] || styles.info
 
 	return (

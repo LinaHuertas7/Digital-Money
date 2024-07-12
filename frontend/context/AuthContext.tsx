@@ -1,45 +1,10 @@
-import React, { createContext, useContext, useEffect, useMemo } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 
-import { SessionUser } from '@/interfaces/index'
+import { AuthContextProviderProps, ContextProps } from '@/interfaces'
 import { useRouter } from 'next/navigation'
 
 import useAuth from '@/hooks/useAuth'
-import { ErrorMessageType } from '@/types'
-
-interface ContextProps {
-	isAuthenticated: boolean
-	userState: SessionUser | null
-	loginData: {
-		email: string
-		password: string
-	}
-	registerData: {
-		firstName: string
-		lastName: string
-		dni: string
-		email: string
-		password: string
-		confirmPassword: string
-		phone: string
-	}
-	error: ErrorMessageType
-	isEmailSubmitted: boolean
-	loading: boolean
-	getUserData: (user_id: { user_id: number }) => void
-	handleLoginChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-	handleRegisterChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-	handleEmailSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-	handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-	handleRegisterSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-	getAccountData: () => void
-	handleLogOut: () => void
-}
-
 export const AuthContext = createContext({} as ContextProps)
-
-interface AuthContextProviderProps {
-	children: React.ReactNode
-}
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 	const router = useRouter()
@@ -58,13 +23,18 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		handleRegisterSubmit,
 		getAccountData,
 		handleLogOut,
+		accountData,
 	} = useAuth()
 
 	useEffect(() => {
 		const processAccountData = async () => {
 			try {
 				const accountData = await getAccountData()
-				await getUserData({ user_id: accountData.user_id })
+				if (accountData && accountData.user_id !== undefined) {
+					await getUserData({ user_id: accountData.user_id })
+				} else {
+					throw new Error('Account data or user ID is missing')
+				}
 			} catch (error) {
 				router.push('/home')
 			}
@@ -76,35 +46,24 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		}
 	}, [])
 
-	const values = useMemo(
-		() => ({
-			isAuthenticated: !!userState,
-			userState,
-			loginData,
-			registerData,
-			error,
-			isEmailSubmitted,
-			loading,
-			handleLoginChange,
-			handleRegisterChange,
-			handleEmailSubmit,
-			handleLoginSubmit,
-			handleRegisterSubmit,
-			getUserData,
-			getAccountData,
-			handleLogOut,
-		}),
-		[
-			userState,
-			loginData,
-			registerData,
-			error,
-			isEmailSubmitted,
-			loading,
-			getUserData,
-			getAccountData,
-		]
-	)
+	const values = {
+		isAuthenticated: !!userState,
+		userState,
+		loginData,
+		registerData,
+		error,
+		isEmailSubmitted,
+		loading,
+		handleLoginChange,
+		handleRegisterChange,
+		handleEmailSubmit,
+		handleLoginSubmit,
+		handleRegisterSubmit,
+		getUserData,
+		getAccountData,
+		handleLogOut,
+		accountData,
+	}
 
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }

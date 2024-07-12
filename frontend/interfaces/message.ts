@@ -10,3 +10,16 @@ export interface ErrorRegisterMessage {
 	phone?: string
 	userAlreadyExists?: string
 }
+
+export interface StylesMessage {
+	[key: string]: {
+		textColor: string
+		title: string
+		icon: any
+	}
+}
+
+export interface Message {
+	message: string | null
+	type: string
+}

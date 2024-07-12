@@ -1,9 +1,5 @@
 import React from 'react'
-
-interface CardProps {
-	title: string
-	children: React.ReactNode
-}
+import { CardProps } from '@/interfaces/index'
 
 const Card = ({ title, children }: CardProps) => {
 	return (

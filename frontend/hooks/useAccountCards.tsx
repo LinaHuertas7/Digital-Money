@@ -1,22 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
-interface Card {
-	id: number
-	account_id: number
-	number_id: number
-	first_last_name: string
-	cod: number
-	expiration_date: string
-}
-
-interface NewCard {
-	cod: number | string
-	expiration_date: string
-	first_last_name: string
-	number_id: number | string
-}
+import { Card, NewCard } from '@/interfaces'
+import endPoints from '@/constants/api'
 
 const InitialCardData: NewCard = {
 	cod: '',
@@ -67,7 +53,7 @@ const useAccountCards = () => {
 		setError(null)
 		try {
 			const { data } = await axios.get(
-				`https://digitalmoney.digitalhouse.com/api/accounts/${accountId}/cards`,
+				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
 				{
 					headers: {
 						Authorization: localStorage.getItem('authToken'),
@@ -91,7 +77,7 @@ const useAccountCards = () => {
 		setLoading(true)
 		try {
 			const response = await axios.post(
-				`https://digitalmoney.digitalhouse.com/api/accounts/${accountId}/cards`,
+				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
 				createNewCardData,
 				{
 					headers: {
@@ -118,7 +104,7 @@ const useAccountCards = () => {
 		setLoading(true)
 		try {
 			const { data } = await axios.post(
-				`https://digitalmoney.digitalhouse.com/api/accounts/${accountId}/cards`,
+				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
 				body,
 				{
 					headers: {
@@ -126,7 +112,6 @@ const useAccountCards = () => {
 					},
 				}
 			)
-
 			console.log(data)
 		} catch (e) {
 			console.log(e)

@@ -38,11 +38,14 @@ const ProfilePage = () => {
 				</div>
 			</div>
 			<Link
-				href="/login"
+				href="/deposit"
 				className="bg-custom-green rounded-xl shadow-md text-center py-8 text-black text-xl font-bold w-full mb-5 flex justify-between px-8"
 			>
-				<div>Gestioná los medios de pago</div>
-				<FontAwesomeIcon className="my-auto" icon={faArrowRight} />
+				<p>Gestioná los medios de pago</p>
+				<FontAwesomeIcon
+					className="my-auto hover:underline"
+					icon={faArrowRight}
+				/>
 			</Link>
 			<DepositCard />
 		</div>

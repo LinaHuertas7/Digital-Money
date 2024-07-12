@@ -7,10 +7,7 @@ import {
 	faSliders,
 } from '@fortawesome/free-solid-svg-icons'
 import Pagination from '@/components/features/Pagination'
-
-interface ActivityProps {
-	itsComponent?: boolean
-}
+import { ActivityProps } from '@/interfaces/index'
 
 const Activity = ({ itsComponent = false }: ActivityProps) => {
 	const data = [

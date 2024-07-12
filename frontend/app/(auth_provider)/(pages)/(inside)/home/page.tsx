@@ -1,8 +1,13 @@
+'use client'
 import Link from 'next/link'
 
 import Activity from '@/components/features/Activity'
+import { useAuthContext } from '@/context/AuthContext'
+import CurrencyFormat from '@/helper/CurrencyFormat'
 
 const HomePage = () => {
+	const { accountData } = useAuthContext()
+
 	return (
 		<div className="flex flex-col justify-center items-center">
 			<div className="bg-custom-dark-gray px-5 md:px-10 pt-4 pb-5 md:pb-10 flex flex-col w-full rounded-xl shadow-md mb-5">
@@ -23,7 +28,7 @@ const HomePage = () => {
 				<div className="px-2 mb-2 md:mb-4">Dinero disponible</div>
 				<div className="flex">
 					<div className="border-2 border-custom-green rounded-full px-4 py-3 text-2xl md:text-3xl font-semibold">
-						$ 6.890.534,17
+						{CurrencyFormat(accountData?.available_amount ?? 0)}
 					</div>
 				</div>
 			</div>

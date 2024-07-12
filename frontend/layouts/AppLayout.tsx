@@ -11,20 +11,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { MenuProvider, useMenuContext } from '@/context/MenuContext'
 import { useAuthContext } from '@/context/AuthContext'
 import { usePathname } from 'next/navigation'
-
-interface AppLayoutProps {
-	children: React.ReactNode
-	type?: string
-}
-
-interface Styles {
-	[key: string]: {
-		headerBg: string
-		buttonLogin: string
-		buttonRegister: string
-		ImageSrc: StaticImageData
-	}
-}
+import { AppLayoutProps, Styles } from '@/interfaces/index'
 
 const styles: Styles = {
 	auth: {
@@ -68,9 +55,9 @@ const HeaderChildrenComponent = ({
 				>
 					{isAuthenticated ? (
 						<>
-							<div className="text-sm font-semibold mx-5">
+							<Link href="/home" className="text-sm font-semibold mx-5">
 								Hola, {userState?.firstname} {userState?.lastname}
-							</div>
+							</Link>
 						</>
 					) : (
 						<>

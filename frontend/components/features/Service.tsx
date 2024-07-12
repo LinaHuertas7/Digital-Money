@@ -7,10 +7,7 @@ import {
 	faSliders,
 } from '@fortawesome/free-solid-svg-icons'
 import Pagination from '@/components/features/Pagination'
-
-interface ServiceComponentProps {
-	itsComponent?: boolean
-}
+import { ServiceComponentProps } from '@/interfaces/index'
 
 const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 	const data = [

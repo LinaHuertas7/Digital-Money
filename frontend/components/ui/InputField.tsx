@@ -1,16 +1,7 @@
+import { InputFieldProps } from '@/interfaces'
 import React from 'react'
 
-interface InputFieldProps {
-	type: string
-	placeholder: string
-	style?: string
-	value?: string | number
-	required?: boolean
-	name?: string
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
-
-const InputField: React.FC<InputFieldProps> = ({
+const InputField = ({
 	type,
 	placeholder,
 	style = '',
@@ -18,7 +9,7 @@ const InputField: React.FC<InputFieldProps> = ({
 	required,
 	name,
 	onChange,
-}) => {
+}: InputFieldProps) => {
 	return (
 		<input
 			required={required}

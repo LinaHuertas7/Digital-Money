@@ -20,7 +20,7 @@ export const SetCookieServerSide = ({
 export const RemoveCookieServerSide = async ({
 	name,
 }: RemoveCookieServerSideProps) => {
-	await cookies().delete(name)
+	cookies().delete(name)
 }
 
 export default SetCookieServerSide
