@@ -6,15 +6,29 @@ import {
 	faSearch,
 	faSliders,
 } from '@fortawesome/free-solid-svg-icons'
-import Pagination from '@/components/features/Pagination'
-import { ActivityProps } from '@/interfaces/index'
+import PaginationComponent from '@/components/features/PaginationComponent'
+import { ServiceComponentProps } from '@/interfaces/index'
 
-const Activity = ({ itsComponent = false }: ActivityProps) => {
+const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 	const data = [
-		{ text: 'Transferiste a Rodrigo', amount: '-1265,57', date: 'sabado' },
-		{ text: 'Transferiste a Consorcio', amount: '-1265,57', date: 'sabado' },
-		{ text: 'Ingresaste dinero', amount: '-1265,57', date: 'sabado' },
-		{ text: 'Te transfirieron dinero', amount: '-1265,57', date: 'sabado' },
+		{
+			id: 1,
+			text: 'Claro',
+			image:
+				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
+		},
+		{
+			id: 2,
+			text: 'Personal',
+			image:
+				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
+		},
+		{
+			id: 3,
+			text: 'Cablevisión',
+			image:
+				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
+		},
 	]
 
 	return (
@@ -27,7 +41,7 @@ const Activity = ({ itsComponent = false }: ActivityProps) => {
 					/>
 					<input
 						type="text"
-						placeholder="Buscar en tu actividad"
+						placeholder="Buscá entre más de 5.000 empresas"
 						className="flex-grow pl-6 p-1 text-base border-none focus:border-none focus-visible:outline-none text-black"
 					/>
 				</div>
@@ -44,7 +58,7 @@ const Activity = ({ itsComponent = false }: ActivityProps) => {
 
 			<div className="bg-white rounded-xl py-5 md:py-10 px-5 md:px-8 w-full text-black shadow-md">
 				<div className="border-b border-gray-300 pb-4 font-semibold">
-					Tu actividad
+					Más recientes
 				</div>
 				{data.map((item, index) => (
 					<div
@@ -52,12 +66,20 @@ const Activity = ({ itsComponent = false }: ActivityProps) => {
 						className="border-b border-gray-300 flex py-2 md:py-4 justify-between text-sm md:text-base"
 					>
 						<div className="flex">
-							<div className="my-auto bg-custom-green rounded-full h-7 w-7"></div>
+							<img
+								src={item.image}
+								alt={item.text}
+								className="max-w-14 max-h-14"
+							/>
 							<div className="my-auto mx-2 md:mx-4">{item.text}</div>
 						</div>
 						<div className="my-auto">
-							<div>{item.amount}</div>
-							<div className="text-sm text-gray-400 text-end">{item.date}</div>
+							<Link
+								className="hover:underline font-bold text-sm"
+								href={`/services/${item.id}`}
+							>
+								Seleccionar
+							</Link>
 						</div>
 					</div>
 				))}
@@ -75,11 +97,11 @@ const Activity = ({ itsComponent = false }: ActivityProps) => {
 						</Link>
 					</div>
 				) : (
-					<Pagination />
+					<PaginationComponent />
 				)}
 			</div>
 		</>
 	)
 }
 
-export default Activity
+export default ServiceComponent

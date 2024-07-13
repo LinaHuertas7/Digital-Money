@@ -1,8 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Card, NewCard } from '@/interfaces'
+import { ApiError, Card, CardDelete, NewCard } from '@/interfaces'
 import endPoints from '@/constants/api'
+import { Focused } from '@/types'
 
 const InitialCardData: NewCard = {
 	cod: '',
@@ -15,9 +16,11 @@ const useAccountCards = () => {
 	const [cards, setCards] = useState<Card[]>([])
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
+	const [message, setMessage] = useState<string | null>(null)
 	const [createNewCardData, setCreateNewCardData] =
 		useState<NewCard>(InitialCardData)
 	const [isFormValid, setIsFormValid] = useState(false)
+	const [focused, setFocused] = useState<Focused>(undefined)
 
 	useEffect(() => {
 		const allFieldsFilled = Object.values(createNewCardData).every(
@@ -29,11 +32,11 @@ const useAccountCards = () => {
 	const handleInputChangeNewCardData = (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const { name, checked, value } = e.target
+		const { name, value } = e.target
 
 		setCreateNewCardData({
 			...createNewCardData,
-			[name]: value || checked,
+			[name]: value,
 		})
 	}
 
@@ -48,12 +51,16 @@ const useAccountCards = () => {
 		})
 	}
 
-	const fetchCards = async (accountId: number) => {
+	const handleInputFocus = (fieldName: Focused) => {
+		setFocused(fieldName)
+	}
+
+	const fetchCards = async (account_id: number) => {
 		setLoading(true)
 		setError(null)
 		try {
 			const { data } = await axios.get(
-				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
+				`${endPoints.GET_ACCOUNT_ID_URL}${account_id}/cards`,
 				{
 					headers: {
 						Authorization: localStorage.getItem('authToken'),
@@ -61,8 +68,11 @@ const useAccountCards = () => {
 				}
 			)
 			setCards(data)
-		} catch (err: any) {
-			setError(err.message || 'An error occurred while fetching cards.')
+		} catch (error) {
+			const errorResponse = error as ApiError
+			setError(
+				errorResponse.message || 'An error occurred while fetching cards.'
+			)
 		} finally {
 			setLoading(false)
 		}
@@ -70,14 +80,15 @@ const useAccountCards = () => {
 
 	const handleCreateNewCardSubmit = async (
 		e: React.FormEvent,
-		accountId: number
+		account_id: number
 	) => {
 		e.preventDefault()
 		setError(null)
+		setMessage(null)
 		setLoading(true)
 		try {
-			const response = await axios.post(
-				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
+			await axios.post(
+				`${endPoints.GET_ACCOUNT_ID_URL}${account_id}/cards`,
 				createNewCardData,
 				{
 					headers: {
@@ -85,36 +96,37 @@ const useAccountCards = () => {
 					},
 				}
 			)
-			console.log(response)
-		} catch (error: any) {
-			const errorMessage = error.response?.data?.error || error.message
+			setMessage('Card created successfully!')
+			setCreateNewCardData(InitialCardData)
+		} catch (error) {
+			const errorResponse = error as ApiError
+			const errorMessage =
+				errorResponse.response?.data?.error || errorResponse.message
 			setError(errorMessage)
 		} finally {
 			setLoading(false)
 		}
 	}
 
-	const createNewCard = async ({
-		accountId,
-		body,
-	}: {
-		accountId: number
-		body: any
-	}) => {
+	const deleteCard = async ({ card_id, account_id }: CardDelete) => {
 		setLoading(true)
+		setError(null)
 		try {
-			const { data } = await axios.post(
-				`${endPoints.GET_ACCOUNT_ID_URL}${accountId}/cards`,
-				body,
+			await axios.delete(
+				`${endPoints.GET_ACCOUNT_ID_URL}${account_id}/cards/${card_id}`,
 				{
 					headers: {
 						Authorization: localStorage.getItem('authToken'),
 					},
 				}
 			)
-			console.log(data)
-		} catch (e) {
-			console.log(e)
+			setMessage('Card deleted successfully!')
+			fetchCards(account_id)
+		} catch (error) {
+			const errorResponse = error as ApiError
+			const errorMessage =
+				errorResponse.response?.data?.error || errorResponse.message
+			setError(errorMessage)
 		} finally {
 			setLoading(false)
 		}
@@ -122,15 +134,18 @@ const useAccountCards = () => {
 
 	return {
 		cards,
+		message,
 		loading,
 		error,
 		fetchCards,
-		createNewCard,
 		createNewCardData,
 		handleInputChangeNewCardData,
 		handleNumberInputChangeNewCardData,
 		handleCreateNewCardSubmit,
 		isFormValid,
+		deleteCard,
+		focused,
+		handleInputFocus,
 	}
 }
 

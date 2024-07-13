@@ -1,4 +1,4 @@
-export interface PaginationProps {
+export interface PaginationComponentProps {
 	data?: any[]
 	itemsPerPage?: number
 }

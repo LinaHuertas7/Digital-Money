@@ -15,7 +15,7 @@ export interface Styles {
 	}
 }
 
-export interface AuthHeaderProps {
+export interface AuthHeaderComponentProps {
 	children: React.ReactNode
 	logo?: StaticImageData
 	className?: string

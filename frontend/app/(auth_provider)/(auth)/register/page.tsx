@@ -2,9 +2,9 @@
 import React from 'react'
 import { ErrorRegisterMessage } from '@/interfaces'
 
-import InputField from '@/components/ui/InputField'
+import InputFieldComponent from '@/components/ui/InputFieldComponent'
 import { useAuthContext } from '@/context/AuthContext'
-import Spinner from '@/components/ui/Spinner'
+import SpinnerComponent from '@/components/ui/SpinnerComponent'
 
 const RegisterPage = () => {
 	const {
@@ -20,19 +20,19 @@ const RegisterPage = () => {
 	return (
 		<div className="pt-10 pb-5 h-auto md:h-screen-minus-layout flex flex-col justify-center items-center">
 			<h1 className="text-center mb-8 text-lg font-bold">Crear cuenta</h1>
-			{loading && <Spinner />}
+			{loading && <SpinnerComponent />}
 			<form
 				className="grid grid-cols-1 md:grid-cols-2 md:gap-x-10 gap-y-3 mx-6"
 				onSubmit={handleRegisterSubmit}
 			>
-				<InputField
+				<InputFieldComponent
 					type="text"
 					name="firstName"
 					value={registerData.firstName}
 					onChange={handleRegisterChange}
 					placeholder="Nombre*"
 				/>
-				<InputField
+				<InputFieldComponent
 					type="text"
 					name="lastName"
 					value={registerData.lastName}
@@ -45,14 +45,14 @@ const RegisterPage = () => {
 				<p className="text-custom-red text-sm italic">
 					{errorValues?.lastName}
 				</p>
-				<InputField
+				<InputFieldComponent
 					type="number"
 					name="dni"
 					value={registerData.dni}
 					onChange={handleRegisterChange}
 					placeholder="DNI*"
 				/>
-				<InputField
+				<InputFieldComponent
 					type="email"
 					name="email"
 					value={registerData.email}
@@ -65,14 +65,14 @@ const RegisterPage = () => {
 					Usa entre 6 y 20 carácteres (debe contener al menos al menos 1
 					carácter especial, una mayúscula y un número)
 				</p>
-				<InputField
+				<InputFieldComponent
 					type="password"
 					name="password"
 					value={registerData.password}
 					onChange={handleRegisterChange}
 					placeholder="Contraseña*"
 				/>
-				<InputField
+				<InputFieldComponent
 					type="password"
 					name="confirmPassword"
 					value={registerData.confirmPassword}
@@ -82,7 +82,7 @@ const RegisterPage = () => {
 				<p className="text-custom-red text-sm italic col-span-1 md:col-span-2">
 					{errorValues?.password}
 				</p>
-				<InputField
+				<InputFieldComponent
 					type="text"
 					name="phone"
 					value={registerData.phone}

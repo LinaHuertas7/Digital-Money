@@ -1,4 +1,4 @@
-import Menu from '@/components/ui/Menu'
+import MenuComponent from '@/components/ui/MenuComponent'
 
 export default function PagesRootLayout({
 	children,
@@ -16,7 +16,7 @@ export default function PagesRootLayout({
 
 	return (
 		<div className="flex md:h-screen-minus-layout">
-			<Menu menuItems={menuItems} />
+			<MenuComponent menuItems={menuItems} />
 			<div className="flex-grow bg-gray-200 px-5 md:px-14 py-8 h-full overflow-auto">
 				{children}
 			</div>

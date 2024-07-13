@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 
-import Activity from '@/components/features/Activity'
+import ActivityComponent from '@/components/features/ActivityComponent'
 import { useAuthContext } from '@/context/AuthContext'
 import CurrencyFormat from '@/helper/CurrencyFormat'
 
@@ -46,7 +46,7 @@ const HomePage = () => {
 					Pago de servicios
 				</Link>
 			</div>
-			<Activity itsComponent={true} />
+			<ActivityComponent itsComponent={true} />
 		</div>
 	)
 }

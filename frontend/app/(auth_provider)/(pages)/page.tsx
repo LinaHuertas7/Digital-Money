@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from '@/components/ui/Card'
+import CardComponent from '@/components/ui/CardComponent'
 
 export default function Home() {
 	return (
@@ -16,19 +16,19 @@ export default function Home() {
 			</div>
 			<div className="md:relative flex items-center justify-center w-full md:w-9/12 mx-auto px-8 md:px-8 z-10 bg-custom-green rounded-t-3xl">
 				<div className="md:absolute bg-modern-blue font-bold mx-auto py-3 text-2xl text-white w-full z-1 flex flex-col md:flex-row justify-center -mt-20 md:mt-0">
-					<Card title="Transferí dinero">
+					<CardComponent title="Transferí dinero">
 						<p className="text-black text-sm md:text-lg w-11/12">
 							Desde Digital Money House vas a poder transferir dinero a otras
 							cuentas, asi como también recibir transferencias y nuclear tu
 							capital en nuestra billetera virtual
 						</p>
-					</Card>
-					<Card title="Pago de servicios">
+					</CardComponent>
+					<CardComponent title="Pago de servicios">
 						<p className="text-black text-sm md:text-lg w-11/12">
 							Pagá mensualmente los servicios en 3 simples clicks. Facil, rápido
 							y conveniente. Olvidate de las facturas en papel
 						</p>
-					</Card>
+					</CardComponent>
 				</div>
 			</div>
 			<div className="bg-custom-green w-full h-1/4 rounded-t-3xl bottom-0"></div>

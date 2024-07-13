@@ -1,4 +1,4 @@
-import Service from '@/components/features/Service'
+import Service from '@/components/features/ServiceComponent'
 
 const ServicePage = () => {
 	return (

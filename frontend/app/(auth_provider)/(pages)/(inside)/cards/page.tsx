@@ -7,9 +7,12 @@ import { faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons'
 import useAccountCards from '@/hooks/useAccountCards'
 import { useEffect } from 'react'
 import { useAuthContext } from '@/context/AuthContext'
+import MessageComponent from '@/components/ui/MessageComponent'
+import SpinnerComponent from '@/components/ui/SpinnerComponent'
+import CardItemComponent from '@/components/features/deposit/CardItemComponent'
 
 const CardsPage = () => {
-	const { cards, fetchCards } = useAccountCards()
+	const { cards, fetchCards, deleteCard, message, loading } = useAccountCards()
 	const { isAuthenticated, accountData } = useAuthContext()
 
 	useEffect(() => {
@@ -20,6 +23,7 @@ const CardsPage = () => {
 
 	return (
 		<div className="flex flex-col justify-center items-center">
+			{message && <MessageComponent message={message} type="info" />}
 			<div className="bg-custom-dark-gray px-10 pt-4 pb-10 flex flex-col w-full rounded-xl shadow-md mb-5">
 				<div className="my-5">Agregá tu tarjeta de débito o crédito</div>
 
@@ -46,22 +50,24 @@ const CardsPage = () => {
 				<div className="border-b border-black pb-4 font-semibold">
 					Tus tarjetas
 				</div>
-				{cards.map((card, index) => (
-					<div
-						key={index}
-						className="border-b border-black flex py-5 justify-between w-full"
-					>
-						<div className="flex">
-							<div className="my-auto bg-custom-green rounded-full h-10 w-10"></div>
-							<div className="my-auto mx-4">
-								{`Terminada en ${card.cod.toString().slice(-4)}`}
-							</div>
+				{loading ? (
+					<SpinnerComponent />
+				) : cards.length > 0 ? (
+					cards.map((card) => (
+						<CardItemComponent
+							key={card.id}
+							card={card}
+							delete_card={deleteCard}
+							account_id={accountData?.id ?? 0}
+						/>
+					))
+				) : (
+					<div className="border-b border-black flex py-5 justify-between w-full">
+						<div className="text-center w-full font-bold">
+							No tienes tarjetas asociadas
 						</div>
-						<Link href="/login" className="text-black font-semibold my-auto">
-							Eliminar
-						</Link>
 					</div>
-				))}
+				)}
 			</div>
 		</div>
 	)

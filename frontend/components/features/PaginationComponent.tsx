@@ -2,9 +2,12 @@
 import { useState } from 'react'
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
-import { PaginationProps } from '@/interfaces/index'
+import { PaginationComponentProps } from '@/interfaces/index'
 
-const Pagination = ({ data = [], itemsPerPage = 4 }: PaginationProps) => {
+const PaginationComponent = ({
+	data = [],
+	itemsPerPage = 4,
+}: PaginationComponentProps) => {
 	const searchParams = useSearchParams()
 	const pathname = usePathname()
 	const { replace } = useRouter()
@@ -41,4 +44,4 @@ const Pagination = ({ data = [], itemsPerPage = 4 }: PaginationProps) => {
 	)
 }
 
-export default Pagination
+export default PaginationComponent

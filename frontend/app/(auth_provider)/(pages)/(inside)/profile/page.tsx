@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faPencil } from '@fortawesome/free-solid-svg-icons'
 
-import DepositCard from '@/components/features/DepositCard'
+import DepositCardComponent from '@/components/features/deposit/DepositCardComponent'
 
 const ProfilePage = () => {
 	return (
@@ -47,7 +47,7 @@ const ProfilePage = () => {
 					icon={faArrowRight}
 				/>
 			</Link>
-			<DepositCard />
+			<DepositCardComponent />
 		</div>
 	)
 }

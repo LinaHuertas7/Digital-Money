@@ -1,5 +1,6 @@
 {
   "exportall.config.folderListener": [
-    "/frontend/interfaces"
+    "/frontend/interfaces",
+    "/frontend/types"
   ]
 }

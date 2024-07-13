@@ -62,3 +62,8 @@ export interface ContextProps {
 export interface AuthContextProviderProps {
 	children: React.ReactNode
 }
+
+export interface GetInitialsProps {
+	firstname: string | undefined
+	lastname: string | undefined
+}

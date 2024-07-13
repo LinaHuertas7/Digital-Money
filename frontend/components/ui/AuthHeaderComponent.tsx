@@ -1,8 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-import { AuthHeaderProps } from '@/interfaces/index'
+import { AuthHeaderComponentProps } from '@/interfaces/index'
 
-const AuthHeader = ({ children, logo, className = '' }: AuthHeaderProps) => {
+const AuthHeaderComponent = ({
+	children,
+	logo,
+	className = '',
+}: AuthHeaderComponentProps) => {
 	return (
 		<header className={`flex h-16 px-5 w-full ${className}`}>
 			{logo && <Image src={logo} alt="logo" style={{ objectFit: 'contain' }} />}
@@ -11,4 +15,4 @@ const AuthHeader = ({ children, logo, className = '' }: AuthHeaderProps) => {
 	)
 }
 
-export default AuthHeader
+export default AuthHeaderComponent

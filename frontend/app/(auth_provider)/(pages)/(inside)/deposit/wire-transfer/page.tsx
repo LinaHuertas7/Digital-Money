@@ -1,9 +1,9 @@
-import DepositCard from '@/components/features/DepositCard'
+import DepositCardComponent from '@/components/features/deposit/DepositCardComponent'
 
 const WireTransferPage = () => {
 	return (
 		<div className="flex flex-col justify-center items-center">
-			<DepositCard />
+			<DepositCardComponent />
 		</div>
 	)
 }

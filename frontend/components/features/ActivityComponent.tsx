@@ -6,29 +6,17 @@ import {
 	faSearch,
 	faSliders,
 } from '@fortawesome/free-solid-svg-icons'
-import Pagination from '@/components/features/Pagination'
-import { ServiceComponentProps } from '@/interfaces/index'
+import PaginationComponent from '@/components/features/PaginationComponent'
+import { ActivityComponentProps } from '@/interfaces/index'
 
-const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
+const ActivityComponent = ({
+	itsComponent = false,
+}: ActivityComponentProps) => {
 	const data = [
-		{
-			id: 1,
-			text: 'Claro',
-			image:
-				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
-		},
-		{
-			id: 2,
-			text: 'Personal',
-			image:
-				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
-		},
-		{
-			id: 3,
-			text: 'Cablevisión',
-			image:
-				'https://www.elempleo.com/co/sitio-empresarial/CompanySites/claro-colombia/resources/images/logo-social.png',
-		},
+		{ text: 'Transferiste a Rodrigo', amount: '-1265,57', date: 'sabado' },
+		{ text: 'Transferiste a Consorcio', amount: '-1265,57', date: 'sabado' },
+		{ text: 'Ingresaste dinero', amount: '-1265,57', date: 'sabado' },
+		{ text: 'Te transfirieron dinero', amount: '-1265,57', date: 'sabado' },
 	]
 
 	return (
@@ -41,7 +29,7 @@ const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 					/>
 					<input
 						type="text"
-						placeholder="Buscá entre más de 5.000 empresas"
+						placeholder="Buscar en tu actividad"
 						className="flex-grow pl-6 p-1 text-base border-none focus:border-none focus-visible:outline-none text-black"
 					/>
 				</div>
@@ -58,7 +46,7 @@ const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 
 			<div className="bg-white rounded-xl py-5 md:py-10 px-5 md:px-8 w-full text-black shadow-md">
 				<div className="border-b border-gray-300 pb-4 font-semibold">
-					Más recientes
+					Tu actividad
 				</div>
 				{data.map((item, index) => (
 					<div
@@ -66,20 +54,12 @@ const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 						className="border-b border-gray-300 flex py-2 md:py-4 justify-between text-sm md:text-base"
 					>
 						<div className="flex">
-							<img
-								src={item.image}
-								alt={item.text}
-								className="max-w-14 max-h-14"
-							/>
+							<div className="my-auto bg-custom-green rounded-full h-7 w-7"></div>
 							<div className="my-auto mx-2 md:mx-4">{item.text}</div>
 						</div>
 						<div className="my-auto">
-							<Link
-								className="hover:underline font-bold text-sm"
-								href={`/services/${item.id}`}
-							>
-								Seleccionar
-							</Link>
+							<div>{item.amount}</div>
+							<div className="text-sm text-gray-400 text-end">{item.date}</div>
 						</div>
 					</div>
 				))}
@@ -97,11 +77,11 @@ const ServiceComponent = ({ itsComponent = false }: ServiceComponentProps) => {
 						</Link>
 					</div>
 				) : (
-					<Pagination />
+					<PaginationComponent />
 				)}
 			</div>
 		</>
 	)
 }
 
-export default ServiceComponent
+export default ActivityComponent

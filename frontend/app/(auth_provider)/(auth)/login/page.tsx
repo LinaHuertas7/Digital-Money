@@ -1,6 +1,6 @@
 'use client'
-import Spinner from '@/components/ui/Spinner'
-import InputField from '@/components/ui/InputField'
+import SpinnerComponent from '@/components/ui/SpinnerComponent'
+import InputFieldComponent from '@/components/ui/InputFieldComponent'
 import { useAuthContext } from '@/context/AuthContext'
 
 const LoginPage = () => {
@@ -21,12 +21,12 @@ const LoginPage = () => {
 					: '¡Hola! Ingresá tu e-mail'}
 			</h1>
 			<div className="w-9/12 md:w-3/12">
-				{loading && <Spinner />}
+				{loading && <SpinnerComponent />}
 				<form
 					onSubmit={isEmailSubmitted ? handleLoginSubmit : handleEmailSubmit}
 				>
 					{!isEmailSubmitted && (
-						<InputField
+						<InputFieldComponent
 							required
 							name="email"
 							type="email"
@@ -37,7 +37,7 @@ const LoginPage = () => {
 						/>
 					)}
 					{isEmailSubmitted && (
-						<InputField
+						<InputFieldComponent
 							required
 							name="password"
 							type="password"

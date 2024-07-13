@@ -1,34 +1,13 @@
 'use client'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { useAuthContext } from '@/context/AuthContext'
 import { useMenuContext } from '@/context/MenuContext'
 import { MenuItemProps } from '@/interfaces'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import MenuItemComponent from './MenuItemComponent'
 
-const MenuItem = ({ href, name }: MenuItemProps) => {
-	const pathname = usePathname()
-
-	const active = href === '/' ? pathname === href : pathname.startsWith(href)
-
-	return (
-		<li>
-			<Link
-				href={href}
-				className={`block px-5 py-3  ${
-					active
-						? 'font-extrabold text-black hover:font-extrabold'
-						: 'hover:font-bold'
-				}`}
-			>
-				{name}
-			</Link>
-		</li>
-	)
-}
-
-const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
+const MenuComponent = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 	const { isOpen, toggleMenu } = useMenuContext()
 	const { handleLogOut } = useAuthContext()
 
@@ -49,7 +28,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 
 				<ul className="flex-grow px-5 py-6">
 					{menuItems.map((menuItem: any) => (
-						<MenuItem
+						<MenuItemComponent
 							href={menuItem.href}
 							name={menuItem.name}
 							key={menuItem.href}
@@ -77,4 +56,4 @@ const Menu = ({ menuItems }: { menuItems: MenuItemProps[] }) => {
 	)
 }
 
-export default Menu
+export default MenuComponent

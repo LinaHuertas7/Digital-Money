@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '@/context/AuthContext'
 
-const DepositCard = () => {
+const DepositCardComponent = () => {
 	const { accountData } = useAuthContext()
 
 	return (
@@ -37,4 +37,4 @@ const DepositCard = () => {
 	)
 }
 
-export default DepositCard
+export default DepositCardComponent
