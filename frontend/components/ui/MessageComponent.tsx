@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from 'react'
+
 import { faInfoCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { StylesMessage, Message } from '@/interfaces/index'
+import { Message, StylesMessage } from '@/interfaces/index'
 
 const styles: StylesMessage = {
 	info: {
@@ -15,20 +17,35 @@ const styles: StylesMessage = {
 	},
 }
 
-const MessageComponent = ({ message, type = 'info' }: Message) => {
+const MessageComponent = ({
+	message,
+	type = 'info',
+	duration = null,
+}: Message & { duration?: number | null }) => {
 	const { textColor, title, icon } = styles[type] || styles.info
+	const [isVisible, setIsVisible] = useState(true)
+
+	useEffect(() => {
+		if (duration && duration > 0) {
+			const timer = setTimeout(() => {
+				setIsVisible(false)
+			}, duration)
+
+			return () => clearTimeout(timer)
+		}
+	}, [duration])
+
+	if (!isVisible) return null
 
 	return (
-		<div className="bg-custom-dark-gray px-10 py-5 md:py-7 flex flex-col w-full rounded-xl shadow-md mt-7 mb-5">
-			<div className="flex flex-col mb-7">
-				<FontAwesomeIcon className={`text-6xl mx-5 ${textColor}`} icon={icon} />
-				<div className="mt-5 font-bold mx-auto text-2xl">{title}</div>
-			</div>
-
-			<hr className="border-0 h-px bg-custom-gray" />
-
-			<div className="text-sm mt-8 mb-5 max-w-96 text-center mx-auto">
-				{message}
+		<div className="bg-custom-dark-gray px-10 py-2 md:py-7 flex w-full rounded-xl shadow-md mb-5">
+			<div className="flex items-center">
+				<FontAwesomeIcon className={`text-6xl ${textColor}`} icon={icon} />
+				<div className="flex-grow ml-4">
+					<div className="font-bold text-2xl">{title}</div>
+					<hr className="border-0 h-px bg-custom-gray my-2" />
+					<div className="text-sm text-center">{message}</div>
+				</div>
 			</div>
 		</div>
 	)

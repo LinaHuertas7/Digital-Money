@@ -22,4 +22,5 @@ export interface StylesMessage {
 export interface Message {
 	message: string | null
 	type: string
+	duration?: number | null
 }

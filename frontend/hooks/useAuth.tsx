@@ -122,7 +122,6 @@ const useAuth = () => {
 			setAccountData(data)
 			return data
 		} catch (error) {
-			localStorage.removeItem('authToken')
 			setAccountData(null)
 		}
 	}
@@ -203,7 +202,7 @@ const useAuth = () => {
 		setUserState(null)
 		localStorage.removeItem('authToken')
 		await RemoveCookieServerSide({ name: 'authToken' })
-		router.push('/home')
+		router.push('/')
 	}
 
 	return {

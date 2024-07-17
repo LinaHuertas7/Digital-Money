@@ -23,7 +23,9 @@ const CardsPage = () => {
 
 	return (
 		<div className="flex flex-col justify-center items-center">
-			{message && <MessageComponent message={message} type="info" />}
+			{message && (
+				<MessageComponent message={message} type="info" duration={5000} />
+			)}
 			<div className="bg-custom-dark-gray px-10 pt-4 pb-10 flex flex-col w-full rounded-xl shadow-md mb-5">
 				<div className="my-5">Agregá tu tarjeta de débito o crédito</div>
 

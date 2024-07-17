@@ -6,6 +6,7 @@ const endPoints = {
 	GET_ACCOUNT_URL: `${API_URL}/account`,
 	GET_USER_URL: `${API_URL}/users/`,
 	GET_ACCOUNT_ID_URL: `${API_URL}/accounts/`,
+	DEPOSIT_URL: `${API_URL}/accounts/`,
 }
 
 export default endPoints

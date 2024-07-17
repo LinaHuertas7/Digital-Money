@@ -1,5 +1,6 @@
 export * from './activity'
 export * from './auth'
+export * from './deposit'
 export * from './form'
 export * from './layout'
 export * from './message'

@@ -15,7 +15,7 @@ export default function Home() {
 				</div>
 			</div>
 			<div className="md:relative flex items-center justify-center w-full md:w-9/12 mx-auto px-8 md:px-8 z-10 bg-custom-green rounded-t-3xl">
-				<div className="md:absolute bg-modern-blue font-bold mx-auto py-3 text-2xl text-white w-full z-1 flex flex-col md:flex-row justify-center -mt-20 md:mt-0">
+				<div className="md:absolute bg-modern-blue mx-auto py-3 text-2xl text-white w-full z-1 flex flex-col md:flex-row justify-center -mt-20 md:mt-0">
 					<CardComponent title="Transferí dinero">
 						<p className="text-black text-sm md:text-lg w-11/12">
 							Desde Digital Money House vas a poder transferir dinero a otras

@@ -6,7 +6,7 @@ import { useAuthContext } from '@/context/AuthContext'
 import { useEffect } from 'react'
 import Cards from 'react-credit-cards-2'
 import 'react-credit-cards-2/dist/es/styles-compiled.css'
-import formatExpiryDate from '@/helper/formatExpiryDate'
+import { formatExpiryDate } from '@/helper/formatDate'
 
 const AddCardPage = () => {
 	const {

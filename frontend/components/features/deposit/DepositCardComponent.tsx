@@ -1,7 +1,6 @@
 'use client'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '@/context/AuthContext'
+import DepositDetailComponent from './DepositDetailComponent'
 
 const DepositCardComponent = () => {
 	const { accountData } = useAuthContext()
@@ -12,27 +11,8 @@ const DepositCardComponent = () => {
 				Copia tu cvu o alias para ingresar o transferir dinero desde otra cuenta
 			</div>
 
-			<div className="flex justify-between my-4">
-				<div>
-					<div className="text-custom-green font-semibold">CVU</div>
-					<div>{accountData?.cvu}</div>
-				</div>
-				<FontAwesomeIcon
-					className="my-auto text-custom-green text-2xl"
-					icon={faCopy}
-				/>
-			</div>
-
-			<div className="flex justify-between my-4">
-				<div>
-					<div className="text-custom-green font-semibold">Alias</div>
-					<div>{accountData?.alias}</div>
-				</div>
-				<FontAwesomeIcon
-					className="my-auto text-custom-green text-2xl"
-					icon={faCopy}
-				/>
-			</div>
+			<DepositDetailComponent label="CVU" value={accountData?.cvu} />
+			<DepositDetailComponent label="Alias" value={accountData?.alias} />
 		</div>
 	)
 }
