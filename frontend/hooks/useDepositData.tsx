@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import axios from 'axios'
 import endPoints from '@/constants/api'
-import { Card } from '@/interfaces'
-import { formattedDate } from '@/helper/formatDate'
+import { ApiError, Card, Deposit } from '@/interfaces'
+import { useErrorHandlerApi } from './useErrorHandlerApi'
 
 const useDepositData = () => {
+	const { ErrorHandeler } = useErrorHandlerApi()
 	const [selectedCard, setSelectedCard] = useState<Card>()
+	const [deposit, setDeposit] = useState<Deposit>()
 	const [amount, setAmount] = useState(0)
 	const [isSuccess, setIsSuccess] = useState(false)
 	const [loading, setLoading] = useState(false)
@@ -31,18 +33,14 @@ const useDepositData = () => {
 			setError('Invalid data')
 			return
 		}
-
 		setLoading(true)
 		setError(null)
-
 		const depositData = {
 			amount,
-			date: formattedDate,
-			destination: selectedCard.number_id.toString(),
+			date: new Date().toISOString(),
+			destination: selectedCard.first_last_name,
 			origin: selectedCard.cod.toString(),
 		}
-
-		console.log(depositData.date)
 		try {
 			const { data } = await axios.post(
 				`${endPoints.DEPOSIT_URL}${account_id}/deposits`,
@@ -55,15 +53,18 @@ const useDepositData = () => {
 			)
 			setLoading(false)
 			setIsSuccess(true)
-			console.log('data', data)
+			setDeposit(data)
 			return data
 		} catch (error) {
+			const errorResponse = error as ApiError
 			setLoading(false)
 			setError('Failed to make a deposit')
+			ErrorHandeler(errorResponse)
 		}
 	}
 
 	return {
+		deposit,
 		selectedCard,
 		amount,
 		loading,

@@ -17,12 +17,15 @@ import {
 	ErrorResponse,
 	SessionUser,
 	AccountData,
+	UserProfile,
 } from '@/interfaces/index'
 
 import {
 	SetCookieServerSide,
 	RemoveCookieServerSide,
 } from '@/helper/setCookieServerSide'
+import { useErrorHandlerApi } from './useErrorHandlerApi'
+import { ApiError } from 'next/dist/server/api-utils'
 
 const BaseLoginData = {
 	email: '',
@@ -47,8 +50,9 @@ const BaseAccountData = {
 	available_amount: 0,
 }
 
-const useAuth = () => {
+const useAuth = ({ handleUserState }: any) => {
 	const router = useRouter()
+	const { ErrorHandeler } = useErrorHandlerApi()
 	const [userState, setUserState] = useState<SessionUser | null>(null)
 	const [accountData, setAccountData] = useState<AccountData | null>(
 		BaseAccountData
@@ -99,14 +103,34 @@ const useAuth = () => {
 					Authorization: localStorage.getItem('authToken'),
 				},
 			})
-
-			console.log({ data })
-
 			setLoading(false)
-			setUserState(data)
+			handleUserState(data)
 		} catch (error) {
-			console.log({ error })
-			setUserState(null)
+			const apiError = error as ApiError
+			ErrorHandeler(error)
+			handleUserState(null)
+		}
+	}
+
+	const updateUser = async (userId: number, userData: UserProfile) => {
+		try {
+			const authToken = localStorage.getItem('authToken')
+			if (!authToken) throw new Error('No auth token found')
+
+			const { data } = await axios.patch(
+				`${endPoints.PATCH_USER_URL}${userId}`,
+				userData,
+				{
+					headers: {
+						Authorization: authToken,
+					},
+				}
+			)
+
+			handleUserState(data)
+		} catch (error) {
+			const apiError = error as ApiError
+			ErrorHandeler(apiError)
 		}
 	}
 
@@ -122,6 +146,8 @@ const useAuth = () => {
 			setAccountData(data)
 			return data
 		} catch (error) {
+			const apiError = error as ApiError
+			ErrorHandeler(error)
 			setAccountData(null)
 		}
 	}
@@ -136,7 +162,9 @@ const useAuth = () => {
 			})
 			setError(errorMessages.userNotExist)
 		} catch (error) {
+			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
+			ErrorHandeler(error)
 			if (errorResponse.response && errorResponse.response.status === 409) {
 				setEmailSubmitted(true)
 			} else {
@@ -166,8 +194,10 @@ const useAuth = () => {
 				router.push('/home')
 			}
 		} catch (error) {
+			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
 			handleError(errorResponse, 401, 'incorrectPassword', false)
+			ErrorHandeler(error)
 		} finally {
 			setLoading(false)
 		}
@@ -191,15 +221,17 @@ const useAuth = () => {
 			await axios.post(endPoints.REGISTER_URL, registerData)
 			router.push('/register/success')
 		} catch (error) {
+			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
 			handleError(errorResponse, 409, 'userAlreadyExists', true)
+			ErrorHandeler(error)
 		} finally {
 			setLoading(false)
 		}
 	}
 
 	const handleLogOut = async () => {
-		setUserState(null)
+		handleUserState(null)
 		localStorage.removeItem('authToken')
 		await RemoveCookieServerSide({ name: 'authToken' })
 		router.push('/')
@@ -221,6 +253,7 @@ const useAuth = () => {
 		getAccountData,
 		handleLogOut,
 		accountData,
+		updateUser,
 	}
 }
 

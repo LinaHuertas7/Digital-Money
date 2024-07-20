@@ -2,19 +2,22 @@
 
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import SelectCardComponent from '@/components/features/deposit/flow/SelectCardComponent'
 import useAccountCards from '@/hooks/useAccountCards'
 import { useAuthContext } from '@/context/AuthContext'
 import AmountComponent from '@/components/features/deposit/flow/AmountComponent'
-import CheckInformationComponent from '@/components/features/deposit/flow/CheckInformationComponent'
 import useDepositData from '@/hooks/useDepositData'
 import { CheckInfoProps } from '@/interfaces'
 import SpinnerComponent from '@/components/ui/SpinnerComponent'
+import DepositDetailsComponent from '@/components/features/deposit/flow/DepositDetailsComponent'
+import Link from 'next/link'
+import { formatDate } from '@/helper/formatDate'
 
 const DepositPage = () => {
 	const {
+		deposit,
 		selectedCard,
 		amount,
 		loading,
@@ -42,6 +45,13 @@ const DepositPage = () => {
 	}, [isAuthenticated, accountData?.id])
 
 	const nextStep = () => setStep((prevStep) => prevStep + 1)
+	const prevStep = () => setStep((prevStep) => Math.max(prevStep - 1, 1))
+
+	useEffect(() => {
+		if (isSuccess && step === 3) {
+			nextStep()
+		}
+	}, [isSuccess, step])
 
 	return (
 		<div className="flex flex-col justify-center items-center">
@@ -61,21 +71,61 @@ const DepositPage = () => {
 				<AmountComponent onNext={nextStep} updateAmount={updateAmount} />
 			)}
 			{step === 3 && (
-				<CheckInformationComponent
+				<DepositDetailsComponent
 					checkInfoProps={checkInfoProps}
-					onNext={nextStep}
-				/>
+					step={step}
+					accountData={accountData}
+					onSubmit={submitDeposit}
+					headerContent={
+						<div className="mt-2 text-xl text-custom-green font-bold">
+							Revisá que está todo bien
+						</div>
+					}
+				>
+					<>
+						Vas a transferir
+						<button type="button" onClick={prevStep}>
+							<FontAwesomeIcon
+								className="text-custom-green text-2xl mx-5"
+								icon={faEdit}
+							/>
+						</button>
+					</>
+				</DepositDetailsComponent>
 			)}
 			{loading ? (
 				<SpinnerComponent />
 			) : (
-				isSuccess && (
-					<div className="bg-custom-green px-10 py-5 md:py-6 flex flex-col w-full rounded-xl shadow-md mb-5 text-black">
-						<FontAwesomeIcon className="text-6xl mx-5" icon={faCheckCircle} />
-						<div className="mt-5 font-bold mx-auto text-2xl">
-							Ya cargamos el dinero en tu cuenta
+				isSuccess &&
+				step === 4 && (
+					<>
+						<div className="bg-custom-green px-5 md:px-10 py-5 md:py-6 flex flex-col w-full rounded-xl shadow-md mb-5 text-black">
+							<FontAwesomeIcon className="text-6xl mx-5" icon={faCheckCircle} />
+							<div className="mt-5 font-bold mx-auto text-lg md:text-2xl text-center">
+								Ya cargamos el dinero en tu cuenta
+							</div>
 						</div>
-					</div>
+						<DepositDetailsComponent step={step} deposit={deposit}>
+							<p>{deposit?.dated && formatDate(deposit?.dated)}</p>
+						</DepositDetailsComponent>
+
+						<div className="flex flex-col md:flex-row justify-end w-full">
+							<Link
+								type="button"
+								href="/deposit"
+								className="rounded-lg mb-3 md:mb-0 py-4 px-3 text-sm font-bold bg-custom-light-gray text-black w-full md:w-52 text-center md:mx-6"
+							>
+								Ir al inicio
+							</Link>
+
+							<button
+								type="button"
+								className="rounded-lg mb-3 md:mb-0 py-4 px-3 text-sm font-bold bg-custom-green text-black w-full md:w-52 text-center"
+							>
+								Descargar comprobante
+							</button>
+						</div>
+					</>
 				)
 			)}
 		</div>

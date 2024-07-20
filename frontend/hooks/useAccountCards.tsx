@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ApiError, Card, CardDelete, NewCard } from '@/interfaces'
 import endPoints from '@/constants/api'
 import { Focused } from '@/types'
+import { useErrorHandlerApi } from './useErrorHandlerApi'
 
 const InitialCardData: NewCard = {
 	cod: '',
@@ -13,6 +14,7 @@ const InitialCardData: NewCard = {
 }
 
 const useAccountCards = () => {
+	const { ErrorHandeler } = useErrorHandlerApi()
 	const [cards, setCards] = useState<Card[]>([])
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
@@ -73,6 +75,7 @@ const useAccountCards = () => {
 			setError(
 				errorResponse.message || 'An error occurred while fetching cards.'
 			)
+			ErrorHandeler(error)
 		} finally {
 			setLoading(false)
 		}
@@ -103,6 +106,7 @@ const useAccountCards = () => {
 			const errorMessage =
 				errorResponse.response?.data?.error || errorResponse.message
 			setError(errorMessage)
+			ErrorHandeler(error)
 		} finally {
 			setLoading(false)
 		}
@@ -127,6 +131,7 @@ const useAccountCards = () => {
 			const errorMessage =
 				errorResponse.response?.data?.error || errorResponse.message
 			setError(errorMessage)
+			ErrorHandeler(error)
 		} finally {
 			setLoading(false)
 		}

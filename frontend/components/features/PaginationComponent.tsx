@@ -2,17 +2,21 @@
 import { useState } from 'react'
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
-import { PaginationComponentProps } from '@/interfaces/index'
+
+interface PaginationComponentProps {
+	totalItems?: number
+	itemsPerPage?: number
+}
 
 const PaginationComponent = ({
-	data = [],
-	itemsPerPage = 4,
+	totalItems = 0,
+	itemsPerPage = 10,
 }: PaginationComponentProps) => {
 	const searchParams = useSearchParams()
 	const pathname = usePathname()
 	const { replace } = useRouter()
 
-	const dataLength = data.length < 1 ? 32 : data.length
+	const dataLength = totalItems < 1 ? 1 : totalItems
 
 	const [currentPage, setCurrentPage] = useState(
 		Number(searchParams.get('page')) || 1
@@ -28,11 +32,11 @@ const PaginationComponent = ({
 	}
 
 	return (
-		<div className="pt-6 font-semibold flex justify-center space-x-2">
+		<div className="pt-6 font-semibold flex justify-center space-x-1">
 			{Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
 				<button
 					key={number}
-					className={`px-4 py-2 ${
+					className={`px-2 md:px-4 py-1 md:py-2 ${
 						currentPage === number ? 'bg-gray-300' : 'bg-white'
 					} rounded`}
 					onClick={() => changePage(number)}

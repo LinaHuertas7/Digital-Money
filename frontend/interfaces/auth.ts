@@ -30,6 +30,15 @@ export interface SessionUser {
 	id: number
 	lastname: string
 	phone: string
+	password: string
+}
+export interface UserProfile {
+	dni?: number
+	email?: string
+	firstname?: string
+	lastname?: string
+	phone?: string
+	password?: string
 }
 
 export interface AccountData {
@@ -57,6 +66,8 @@ export interface ContextProps {
 	getAccountData: () => void
 	handleLogOut: () => void
 	accountData: AccountData | null
+	handleUserState: () => void
+	updateUser: (userId: number, user: UserProfile) => void
 }
 
 export interface AuthContextProviderProps {

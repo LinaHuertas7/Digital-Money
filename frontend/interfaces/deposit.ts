@@ -7,6 +7,17 @@ export interface DepositOptionProps {
 	href: string
 }
 
+export interface Deposit {
+	account_id: number
+	amount: number
+	dated: string
+	description: string
+	destination: string
+	id: number
+	origin: string
+	type: string
+}
+
 export interface DepositDetailProps {
 	label: string
 	value: string | undefined
@@ -14,7 +25,30 @@ export interface DepositDetailProps {
 
 export interface CheckInformationComponentProps {
 	onNext: () => void
+	onPrev: () => void
 	checkInfoProps: CheckInfoProps
+}
+
+export interface Transaction {
+	account_id: number
+	amount: number
+	dated: string
+	description: string
+	destination: string
+	id: number
+	origin: string
+	type: string
+}
+
+export interface DepositDetailsComponentProps {
+	children: JSX.Element
+	accountData?: AccountData | null
+	deposit?: Deposit
+	isSuccess?: boolean
+	step: number
+	checkInfoProps?: CheckInfoProps
+	headerContent?: JSX.Element
+	onSubmit?: (account_id: number) => Promise<void>
 }
 
 export interface CheckInfoProps {
@@ -34,4 +68,15 @@ export interface SelectCardComponentProps {
 	onNext: () => void
 	onCardSelect: (card: Card) => void
 	isCardSelected: boolean | undefined
+}
+
+export interface Transference {
+	account_id: number
+	amount: number
+	dated: string
+	description: string
+	destination: string
+	id: number
+	origin: string
+	type: string
 }

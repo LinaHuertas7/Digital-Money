@@ -4,12 +4,14 @@ import { AuthContextProviderProps, ContextProps } from '@/interfaces'
 import { useRouter } from 'next/navigation'
 
 import useAuth from '@/hooks/useAuth'
+import useUserState from '@/hooks/useUserState'
+import { RemoveCookieServerSide } from '@/helper/setCookieServerSide'
 export const AuthContext = createContext({} as ContextProps)
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 	const router = useRouter()
+	const { userState, handleUserState } = useUserState()
 	const {
-		userState,
 		loginData,
 		registerData,
 		getUserData,
@@ -24,17 +26,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		getAccountData,
 		handleLogOut,
 		accountData,
-	} = useAuth()
+		updateUser,
+	} = useAuth({
+		userState,
+		handleUserState,
+	})
 
 	useEffect(() => {
 		const processAccountData = async () => {
 			try {
 				const accountData = await getAccountData()
-				if (accountData && accountData.user_id !== undefined) {
-					await getUserData({ user_id: accountData.user_id })
-				} else {
-					throw new Error('Account data or user ID is missing')
-				}
+				await getUserData({ user_id: accountData.user_id })
 			} catch (error) {
 				router.push('/home')
 			}
@@ -43,6 +45,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
 		if (token) {
 			processAccountData()
+		} else {
+			RemoveCookieServerSide({ name: 'authToken' })
 		}
 	}, [])
 
@@ -59,10 +63,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 		handleEmailSubmit,
 		handleLoginSubmit,
 		handleRegisterSubmit,
-		getUserData,
-		getAccountData,
 		handleLogOut,
 		accountData,
+		handleUserState,
+		getUserData,
+		getAccountData,
+		updateUser,
 	}
 
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
