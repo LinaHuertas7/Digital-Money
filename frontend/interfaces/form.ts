@@ -5,6 +5,6 @@ export interface InputFieldComponentProps {
 	value?: string | number
 	required?: boolean
 	name?: string
-	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void // Ajuste aquí
+	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }

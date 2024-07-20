@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useErrorHandlerApi } from '@/hooks/useErrorHandlerApi'
 import { getDateRange, parseDate } from '@/helper/DateFilter'
+import { ApiError } from '@/interfaces'
 
 interface Transaction {
 	account_id: number
@@ -88,8 +89,9 @@ const useTransactions = () => {
 			data.reverse()
 			setAllTransactions(data)
 			return data
-		} catch (error: any) {
-			ErrorHandeler(error)
+		} catch (error) {
+			const errorResponse = error as ApiError
+			ErrorHandeler(errorResponse)
 			setAllTransactions([])
 		} finally {
 			setLoading(false)

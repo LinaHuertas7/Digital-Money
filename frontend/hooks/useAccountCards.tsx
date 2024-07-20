@@ -75,7 +75,7 @@ const useAccountCards = () => {
 			setError(
 				errorResponse.message || 'An error occurred while fetching cards.'
 			)
-			ErrorHandeler(error)
+			ErrorHandeler(errorResponse)
 		} finally {
 			setLoading(false)
 		}
@@ -106,7 +106,7 @@ const useAccountCards = () => {
 			const errorMessage =
 				errorResponse.response?.data?.error || errorResponse.message
 			setError(errorMessage)
-			ErrorHandeler(error)
+			ErrorHandeler(errorResponse)
 		} finally {
 			setLoading(false)
 		}
@@ -131,7 +131,7 @@ const useAccountCards = () => {
 			const errorMessage =
 				errorResponse.response?.data?.error || errorResponse.message
 			setError(errorMessage)
-			ErrorHandeler(error)
+			ErrorHandeler(errorResponse)
 		} finally {
 			setLoading(false)
 		}

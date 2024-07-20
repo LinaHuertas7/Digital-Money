@@ -107,7 +107,7 @@ const useAuth = ({ handleUserState }: any) => {
 			handleUserState(data)
 		} catch (error) {
 			const apiError = error as ApiError
-			ErrorHandeler(error)
+			ErrorHandeler(apiError)
 			handleUserState(null)
 		}
 	}
@@ -147,7 +147,7 @@ const useAuth = ({ handleUserState }: any) => {
 			return data
 		} catch (error) {
 			const apiError = error as ApiError
-			ErrorHandeler(error)
+			ErrorHandeler(apiError)
 			setAccountData(null)
 		}
 	}
@@ -164,7 +164,7 @@ const useAuth = ({ handleUserState }: any) => {
 		} catch (error) {
 			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
-			ErrorHandeler(error)
+			ErrorHandeler(apiError)
 			if (errorResponse.response && errorResponse.response.status === 409) {
 				setEmailSubmitted(true)
 			} else {
@@ -197,7 +197,7 @@ const useAuth = ({ handleUserState }: any) => {
 			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
 			handleError(errorResponse, 401, 'incorrectPassword', false)
-			ErrorHandeler(error)
+			ErrorHandeler(apiError)
 		} finally {
 			setLoading(false)
 		}
@@ -224,7 +224,7 @@ const useAuth = ({ handleUserState }: any) => {
 			const apiError = error as ApiError
 			const errorResponse = error as ErrorResponse
 			handleError(errorResponse, 409, 'userAlreadyExists', true)
-			ErrorHandeler(error)
+			ErrorHandeler(apiError)
 		} finally {
 			setLoading(false)
 		}

@@ -8,7 +8,7 @@ export const useErrorHandlerApi = () => {
 	const { handleUserState } = useAuthContext()
 
 	const authorizationHandelerError = async () => {
-		handleUserState()
+		handleUserState(null)
 		localStorage.removeItem('authToken')
 		await RemoveCookieServerSide({ name: 'authToken' })
 		router.push('/')
@@ -23,10 +23,7 @@ export const useErrorHandlerApi = () => {
 			if (status === 401) {
 				authorizationHandelerError()
 			}
-		} catch (error) {
-			console.log('error error')
-			console.log({ error })
-		}
+		} catch (error) {}
 	}
 
 	return { ErrorHandeler }

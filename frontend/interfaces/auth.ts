@@ -66,7 +66,7 @@ export interface ContextProps {
 	getAccountData: () => void
 	handleLogOut: () => void
 	accountData: AccountData | null
-	handleUserState: () => void
+	handleUserState: (user: SessionUser | null) => void
 	updateUser: (userId: number, user: UserProfile) => void
 }
 

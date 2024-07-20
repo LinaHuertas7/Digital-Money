@@ -80,3 +80,27 @@ export interface Transference {
 	origin: string
 	type: string
 }
+
+export interface handleCodChangeValidator {
+	e: React.ChangeEvent<HTMLInputElement>
+	handleNumberInputChangeNewCardData: (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => void
+}
+
+export interface handleExpirationDateChangeValidator {
+	e: React.ChangeEvent<HTMLInputElement>
+	handleInputChangeNewCardData: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export interface handleFirstLastNameChangeValidator {
+	e: React.ChangeEvent<HTMLInputElement>
+	handleInputChangeNewCardData: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+export interface handleNumberIdChangeValidator {
+	e: React.ChangeEvent<HTMLInputElement>
+	handleNumberInputChangeNewCardData: (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => void
+}

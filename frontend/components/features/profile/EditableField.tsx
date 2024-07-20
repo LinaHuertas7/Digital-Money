@@ -42,10 +42,10 @@ const EditableField = ({ value, onSave, name }: EditableFieldProps) => {
 						type="text"
 						value={currentValue || ''}
 						onChange={handleChange}
-						className="w-full text-gray-400"
+						className="w-11/12 text-gray-500 border border-yellow-400 p-1 font-semibold"
 					/>
 					<FontAwesomeIcon
-						className="my-auto text-gray-400 cursor-pointer"
+						className="my-auto text-green-600 cursor-pointer"
 						icon={faCheck}
 						onClick={handleSave}
 					/>
